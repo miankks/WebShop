@@ -1,0 +1,11 @@
+﻿@model WebShop.Models.ViewModels.ShoppingCartViewModel
+
+<div>
+    This is cart
+</div>
+<div>
+    @foreach (var item in Model.ProductIdsInCookie)
+    {
+        <h3>@item</h3>
+    }
+</div>

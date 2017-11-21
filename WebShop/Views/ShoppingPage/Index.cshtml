@@ -1,0 +1,56 @@
+﻿@model WebShop.Models.ViewModels.PageViewModel<WebShop.Models.Pages.ShoppingPage>
+
+@{
+    Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
+}
+<button class="add">+ Add to cart</button>
+<h3 @Html.EditAttributes(x => x.CurrentPage.Name)> @Html.PropertyFor(x => x.CurrentPage.Name)</h3>
+
+<div class="row">
+    @if (Model != null)
+    {
+        <form method="post" action="@Model.Layout.CartUrl">
+            <div class="span4 media">
+                <div class="mediaImg">
+                    @if (Model.CurrentPage.ProductImage != null)
+                {
+                        @Html.PropertyFor(x => x.CurrentPage.ProductImage)
+                    }
+                    else
+                    {
+                        <img src="~/Static/img/nopreviewavailable.png" alt="No image available" />
+                    }
+                    <h3 @Html.EditAttributes(x => x.CurrentPage.ProductPriceFor)>Pris: @Html.PropertyFor(x => x.CurrentPage.ProductPriceFor)</h3>
+                    <h4>Moms är: @Html.DisplayFor(x => x.CurrentPage.Moms)</h4>
+                    <h5>Produkt Id: @Html.DisplayFor(x => x.CurrentPage.Id)</h5>
+                </div>
+            </div>
+            <div class="span4">
+                @Html.PropertyFor(x => x.CurrentPage.ProductDecscription)
+                <br />
+                <h4>Välj storleken</h4>
+                <select id="size" name="sizes">
+                    <option value="Small">Small</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Large">Large</option>
+                </select>
+
+                <h4>Välj kvantitet</h4>
+                <select id="dropdowntipo" name="numberOfItems">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </select>
+
+                <input type="submit" class="btn btn-primary add" value="+ Läg till">
+            </div>
+        </form>
+    }
+</div>

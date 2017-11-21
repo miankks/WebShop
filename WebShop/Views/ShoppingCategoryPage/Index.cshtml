@@ -1,0 +1,59 @@
+﻿@model WebShop.Models.ViewModels.ShoppingCategoryPageViewModel
+
+@{
+    Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
+}
+
+<div class="row">
+    <p>Shopping category page</p>
+</div>
+<div class="row">
+    @foreach (var item in Model.ShoppingCategoryPages)
+    {
+        <div class="span4">
+            <h2><a href="@item.LinkURL">@item.Name</a> </h2>
+            @if (item.MainProductImage != null)
+            {
+                <a href="@item.LinkURL"> <img src="@Url.ContentUrl(item.MainProductImage)" alt="Image" /> </a>
+            }
+            else
+            {
+                <a href="@item.LinkURL">
+                    <img src="~/Static/img/nopreviewavailable.png" height="300" />
+                </a>
+            }
+            <hr />
+        </div>
+    }
+</div>
+
+<div class="row">
+    @foreach (var item in Model.ShoppingPages)
+    {
+        <p>Shoping page</p>
+        <div class="span4">
+            <div class="media">
+                <div class="mediaImg">
+                    <h2>
+                        <a href="@item.LinkURL">@item.Name</a>
+                    </h2>
+                    <hr />
+                    @if (item.ProductImage != null)
+                    {
+                        <a href="@item.LinkURL"><img src="@Url.ContentUrl(item.ProductImage)" /></a>
+                    }
+                    else
+                    {
+                        <a href="@item.LinkURL">
+                            <img src="~/Static/img/nopreviewavailable.png" height="300" />
+                        </a>
+                    }
+                    <h3>Pris:  @item.ProductPriceFor</h3>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
