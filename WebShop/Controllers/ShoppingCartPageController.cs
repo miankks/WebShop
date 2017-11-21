@@ -26,7 +26,6 @@ namespace WebShop.Controllers
             {
                 cart.Size = cookies["Size"];
                 cart.NumberOfItems = cookies["quantity"];
-                cart.CartId = cookies["fe"];
                 vm.ProductIdsInCookie = new List<string>();
                 vm.ProductIdsInCookie.Add(cart.Size);
                 vm.ProductIdsInCookie.Add(cart.NumberOfItems);

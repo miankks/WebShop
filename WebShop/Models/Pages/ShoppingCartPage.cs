@@ -32,7 +32,7 @@ namespace WebShop.Models.Pages
                 string finalString = new String(stringChars);
                 return finalString;
             }
-            set{}
+            
         }
 
         [Display(

@@ -12,6 +12,7 @@ namespace WebShop.Models.ViewModels
         public bool HideHeader { get; set; }
         public bool HideFooter { get; set; }
         public LinkItemCollection ProductPages { get; set; }
+        public LinkItemCollection ShoppingPages { get; set; }
         public LinkItemCollection CompanyInformationPages { get; set; }
         public LinkItemCollection NewsPages { get; set; }
         public LinkItemCollection CustomerZonePages { get; set; }
