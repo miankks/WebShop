@@ -42,7 +42,7 @@ namespace WebShop.Models.Pages
         public virtual double TotalCartPrice { get; set; }
 
         [Display(
-            Name = "Cart total price",
+            Name = "Cart item sizes",
             GroupName = "Price for total objects in cart",
             Order = 30)]
         public virtual string Size { get; set; }
@@ -57,7 +57,7 @@ namespace WebShop.Models.Pages
         }
 
         [Display(
-            Name = "Cart total price",
+            Name = "Cart total items",
             GroupName = "Price for total objects in cart",
             Order = 30)]
         public virtual string NumberOfItems { get; set; }
