@@ -4,9 +4,33 @@
 <div>
     This is cart
 </div>
+
 <div>
     @foreach (var item in Model.ProductIdsInCookie)
     {
         <h3>@item</h3>
     }
 </div>
+<button type="submit" name="buy" value="all" class="btn btn-primary btn-large">Lägg</button>
+
+@*<table>
+    @foreach (var item in Model.ShoppingCartPages)
+    {
+        <thead>
+            <tr>
+                <th>Number of items chosen</th>
+                <th>Size chosen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @item.NumberOfItems
+                </td>
+                <td>
+                    @item.Size
+                </td>
+            </tr>
+        </tbody>
+    }
+</table>*@

@@ -7,6 +7,9 @@ using EPiServer.Framework.DataAnnotations;
 using EPiServer.Web.Mvc;
 using WebShop.Models.Pages;
 using WebShop.Models.ViewModels;
+using WebShop.Business;
+using System.Web;
+using System;
 
 namespace WebShop.Controllers
 {
@@ -30,5 +33,6 @@ namespace WebShop.Controllers
             };
             return View(model);
         }
+
     }
 }

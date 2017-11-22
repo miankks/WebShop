@@ -22,17 +22,15 @@ namespace WebShop.Controllers
         {
             this._contentRepository = contentRepository;
         }
-       
         public ActionResult Index(ShoppingCartPage currentPage)
         {
-            var shoppingCartView = _contentRepository.GetChildren<ShoppingCartPage>(currentPage.ContentLink).ToList();
+            var shoppingcPageInCOnt = new ShoppingPage();
             var vm = new ShoppingCartViewModel(currentPage);
-            vm.ProductIdsInCookie = new List<string>();
-            vm.ShoppingCartPages = shoppingCartView;
-            var cart = new ShoppingCartPage();
 
+            vm.ProductIdsInCookie = new List<string>();
+            var cart = new ShoppingCartPage();
             var cartItems = new ShoppingCartViewModel.CartItem();
-            
+
             HttpCookie cookies = Request.Cookies["ShoppingCart"];
             if (cookies != null)
             {
@@ -48,21 +46,19 @@ namespace WebShop.Controllers
         [HttpPost]
         public ActionResult Index(ShoppingCartPage currentPage, string numberOfItems, string sizes)
         {
-            var shoppingCartView = _contentRepository.GetChildren<ShoppingCartPage>(currentPage.ContentLink).ToList();
-
             var cookie = new CookieHelper();
 
             var vm = new ShoppingCartViewModel(currentPage);
-            vm.ShoppingCartPages = shoppingCartView;
+
             HttpCookie productCookies = new HttpCookie("ShoppingCart")
             {
                 Expires = DateTime.Now.AddDays(5),
                 ["Size"] = sizes,
                 ["Quantity"] = numberOfItems,
                 ["fe"] = currentPage.CartId,
-                ["mainId"] =Convert.ToString(currentPage.ContentLink.ID)
-    };
-   
+                ["mainId"] = Convert.ToString(currentPage.ContentLink.ID)
+            };
+
             cookie.GetCookies(productCookies.Name, productCookies["Quantity"], productCookies["Size"]);
 
             vm.ProductIdsInCookie = new List<string>
@@ -70,7 +66,7 @@ namespace WebShop.Controllers
                 sizes,
                 numberOfItems,
                 currentPage.CartId,
-               Convert.ToString(currentPage.ContentLink.ID) 
+               Convert.ToString(currentPage.ContentLink.ID)
             };
 
             return View(vm);

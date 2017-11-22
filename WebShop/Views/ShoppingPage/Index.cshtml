@@ -13,13 +13,14 @@
             <div class="span4 media">
                 <div class="mediaImg">
                     @if (Model.CurrentPage.ProductImage != null)
-                {
+                    {
                         @Html.PropertyFor(x => x.CurrentPage.ProductImage)
                     }
                     else
                     {
                         <img src="~/Static/img/nopreviewavailable.png" alt="No image available" />
                     }
+                 
                     <h3 @Html.EditAttributes(x => x.CurrentPage.ProductPriceFor)>Pris: @Html.PropertyFor(x => x.CurrentPage.ProductPriceFor)</h3>
                     <h4>Moms är: @Html.DisplayFor(x => x.CurrentPage.Moms)</h4>
                     <h5>Produkt Id: @Html.DisplayFor(x => x.CurrentPage.Id)</h5>
@@ -36,7 +37,7 @@
                 </select>
 
                 <h4>Välj kvantitet</h4>
-                <select id="dropdowntipo" name="numberOfItems">
+                <select id="dropdown" name="numberOfItems">
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
