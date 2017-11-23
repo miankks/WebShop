@@ -1,9 +1,13 @@
-﻿@model WebShop.Models.ViewModels.ShoppingCategoryPageViewModel
+﻿@model ShoppingCategoryPageViewModel
 
 @{
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
 }
 
+<div class="alert alert-success fade in">
+    <a href="#" class="close" data-dismiss="alert">&times;</a>
+    @TempData["successmessage"]
+</div>
 <div class="row">
     <p>Shopping category page</p>
 </div>
@@ -19,7 +23,7 @@
             else
             {
                 <a href="@item.LinkURL">
-                    <img src="~/Static/img/nopreviewavailable.png" height="300" />
+                    <img src="~/Static/img/nopreviewavailable.png" height="300" alt=""/>
                 </a>
             }
             <hr />
@@ -40,12 +44,12 @@
                     <hr />
                     @if (item.ProductImage != null)
                     {
-                        <a href="@item.LinkURL"><img src="@Url.ContentUrl(item.ProductImage)" /></a>
+                        <a href="@item.LinkURL"><img src="@Url.ContentUrl(item.ProductImage)" alt="" /></a>
                     }
                     else
                     {
                         <a href="@item.LinkURL">
-                            <img src="~/Static/img/nopreviewavailable.png" height="300" />
+                            <img src="~/Static/img/nopreviewavailable.png" height="300" alt="" />
                         </a>
                     }
                     <h3>Pris:  @item.ProductPriceFor</h3>

@@ -1,33 +1,34 @@
-﻿@model PageViewModel<ShoppingPage>
+﻿
+@model ShoppingPage
 
 @{
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
 }
 <button class="add">+ Add to cart</button>
-<h3 @Html.EditAttributes(x => x.CurrentPage.Name)> @Html.PropertyFor(x => x.CurrentPage.Name)</h3>
+<h3 @Html.EditAttributes(x => x.Name)> @Html.PropertyFor(x => x.Name)</h3>
 
 <div class="row">
     @if (Model != null)
     {
-        <form method="post" action="@Model.Layout.CartUrl">
+        <form method="post" @*action="@Model.Layout.CartUrl"*@ action=".">
             <div class="span4 media">
                 <div class="mediaImg">
-                    @if (Model.CurrentPage.ProductImage != null)
+                    @if (Model.ProductImage != null)
                     {
-                        @Html.PropertyFor(x => x.CurrentPage.ProductImage)
+                        @Html.PropertyFor(x => x.ProductImage)
                     }
                     else
                     {
                         <img src="~/Static/img/nopreviewavailable.png" alt="No image available" />
                     }
-                 
-                    <h3 @Html.EditAttributes(x => x.CurrentPage.ProductPriceFor)>Pris: @Html.PropertyFor(x => x.CurrentPage.ProductPriceFor)</h3>
-                    <h4>Moms är: @Html.DisplayFor(x => x.CurrentPage.Moms)</h4>
-                    <h5>Produkt Id: @Html.DisplayFor(x => x.CurrentPage.Id)</h5>
+
+                    <h3 @Html.EditAttributes(x => x.ProductPriceFor)>Pris: @Html.PropertyFor(x => x.ProductPriceFor)</h3>
+                    <h4>Moms är: @Html.DisplayFor(x => x.Moms)</h4>
+                    <h5>Produkt Id: @Html.DisplayFor(x => x.Id)</h5>
                 </div>
             </div>
             <div class="span4">
-                @Html.PropertyFor(x => x.CurrentPage.ProductDecscription)
+                @Html.PropertyFor(x => x.ProductDecscription)
                 <br />
                 <h4>Välj storleken</h4>
                 <select id="size" name="sizes">

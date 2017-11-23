@@ -10,7 +10,7 @@ namespace WebShop.Models.Pages
 {
     [SiteContentType(
         GroupName = Global.GroupNames.Products)]
-    [SiteImageUrl(Global.StaticGraphicsFolderPath + "page-type-thumbnail-product.png")]
+    [SiteImageUrl(Global.StaticGraphicsFolderPath + "ShoppingCategoryPage.png")]
     [AvailableContentTypes(
         Availability.Specific,
         Include = new[] { typeof(ShoppingPage), typeof(ShoppingCategoryPage) })]
@@ -24,6 +24,7 @@ namespace WebShop.Models.Pages
             Order = 10)]
         [UIHint(UIHint.Image)]
         public virtual ContentReference MainProductImage { get; set; }
+
       
     }
 }

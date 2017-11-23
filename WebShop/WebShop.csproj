@@ -315,6 +315,7 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShoppingCartPageController.cs" />
     <Compile Include="Controllers\ShoppingCategoryPageController.cs" />
+    <Compile Include="Controllers\ShoppingPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
     <Compile Include="Controllers\VideoFileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -407,11 +408,13 @@
     <Content Include="Static\css\jquery-ui.css" />
     <Content Include="Static\css\media.css" />
     <Content Include="Static\css\style.css" />
+    <Content Include="Static\gfx\shoppingPage.png" />
     <Content Include="Static\gfx\carouselbackground.png" />
     <Content Include="Static\gfx\contact.jpg" />
     <Content Include="Static\gfx\exampelspan4.png" />
     <Content Include="Static\gfx\experts.png" />
     <Content Include="Static\gfx\fallows-media-wide.jpg" />
+    <Content Include="Static\gfx\shoppingCategoryPage.png" />
     <Content Include="Static\gfx\leader.png" />
     <Content Include="Static\gfx\leader2.png" />
     <Content Include="Static\gfx\logotype.png" />
@@ -504,7 +507,7 @@
     <Content Include="Views\ShoppingCategoryPage\Index.cshtml" />
     <Content Include="Views\ShoppingPage\Index.cshtml" />
     <Content Include="Views\ShoppingCartPage\Index.cshtml" />
-    <Content Include="Views\ShoppingCartPage\Cart.cshtml" />
+    <Content Include="Views\ShoppingPage\Shop.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

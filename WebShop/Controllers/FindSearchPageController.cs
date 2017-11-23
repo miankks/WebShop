@@ -17,7 +17,6 @@ using EPiServer.Find.Api.Querying.Queries;
 using WebShop.Controllers;
 using EPiServer.Web;
 using EPiServer.Find.Cms;
-using WebShop.Models.Pages;
 
 namespace WebShop.Controllers
 {
