@@ -22,15 +22,12 @@ namespace WebShop.Controllers
         {
             this._contentRepository = contentRepository;
         }
+
         public ActionResult Index(ShoppingCartPage currentPage)
         {
-            var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
-            var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
 
             var vm = new ShoppingCartViewModel(currentPage)
             {
-                ShoppingCategoryPages = categoryPages,
-                ShoppingPages = shoppingLinks,
                 ProductIdsInCookie = new List<string>()
             };
 
@@ -53,37 +50,69 @@ namespace WebShop.Controllers
             return View(vm);
         }
 
-        //[HttpPost]
-        //public ActionResult Index( ShoppingCartPage currentPage, ShoppingPage curPage, ShoppingCartViewModel.CartItem cart)
-        //{
-        //    var cookie = new CookieHelper();
+        [HttpPost]
+        public ActionResult Index(ShoppingCartPage currentPage, string sizes, string numberOfItems, int productPageId)
+        {
+            //var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
+            //var allPages = allReferences.Select(x => this._contentRepository.Get<PageData>(x)).ToList();
 
-        //    var vm = new ShoppingCartViewModel(currentPage);
+            //var selectedBySomething = allPages.Where(x => x.StartPublish > DateTime.Now);
 
-        //    //curPage.ProductPriceFor = cart.Price;
+            //var otherSyntax = from page in allPages
+            //    where page.StartPublish > DateTime.Now
+            //    orderby page.StartPublish descending 
+            //    select page;
+            var vm = new ShoppingCartViewModel(currentPage);
 
-        //    HttpCookie productCookies = new HttpCookie("ShoppingCart")
-        //    {
-        //        Expires = DateTime.Now.AddDays(5),
-        //        ["Size"] = cart.Size,
-        //        ["Quantity"] =cart.NumberOfItems,
-        //         //["Price"] =cart.Price.ToString() ,
-        //        //["fe"] = currentPage.CartId,
-        //        ["mainId"] = Convert.ToString(currentPage.ContentLink.ID)
-        //    };
 
-        //    cookie.GetCookies(productCookies.Name, productCookies["Quantity"], productCookies["Size"]);
 
-        //    vm.ProductIdsInCookie = new List<string>
-        //    {
-        //        cart.Size,
-        //        cart.NumberOfItems,
-        //        //cart.Price.ToString(),
+
+            if (productPageId > 0)
+            {
+                var reference = new ContentReference(productPageId);
+                var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
+
+                if (shoppingPage != null)
+                {
+                    // TODO: Add to cart
+                    vm.CartTotal = vm.CartTotal+shoppingPage.ProductPriceFor;
+
+            var cookie = new CookieHelper();
+            cookie.GetCookies(currentPage.CartId, sizes, numberOfItems);
+
+                }
+            }
+
+
+            
+
+            ShoppingCartViewModel.CartItem cart = new ShoppingCartViewModel.CartItem
+            {
+                NumberOfItems = numberOfItems,
+                Size = sizes,
                 
-        //       Convert.ToString(currentPage.ContentLink.ID)
-        //    };
+            };
 
-        //    return View(vm);
-        //}
+
+            vm.ProductIdsInCookie = new List<string>
+            {
+                cart.NumberOfItems,
+                cart.Size,
+                
+               Convert.ToString(currentPage.ContentLink.ID)
+            };
+            return RedirectToAction("Index");
+            //return View(vm);
+        }
     }
 }
+            //HttpCookie productCookies = new HttpCookie("ShoppingCart")
+            //{
+            //    Expires = DateTime.Now.AddDays(5),
+            //    ["Size"] = cart.Size,
+            //    ["Quantity"] = cart.NumberOfItems,
+            //    ["mainId"] = Convert.ToString(currentPage.ContentLink.ID)
+            //};
+
+            //cookie.GetCookies(productCookies.Name, productCookies["Quantity"], productCookies["Size"]);
+            //cookie.GetCookies(currentPage.CartId, sizes, numberOfItems);

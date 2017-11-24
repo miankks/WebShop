@@ -315,7 +315,6 @@
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\ShoppingCartPageController.cs" />
     <Compile Include="Controllers\ShoppingCategoryPageController.cs" />
-    <Compile Include="Controllers\ShoppingPageController.cs" />
     <Compile Include="Controllers\StartPageController.cs" />
     <Compile Include="Controllers\VideoFileController.cs" />
     <Compile Include="Global.asax.cs">
@@ -507,7 +506,7 @@
     <Content Include="Views\ShoppingCategoryPage\Index.cshtml" />
     <Content Include="Views\ShoppingPage\Index.cshtml" />
     <Content Include="Views\ShoppingCartPage\Index.cshtml" />
-    <Content Include="Views\ShoppingPage\Shop.cshtml" />
+    <Content Include="Views\ShoppingCategoryPage\ShoppingPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

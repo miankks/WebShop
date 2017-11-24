@@ -3,11 +3,11 @@
 @{
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
 }
-
 <div class="alert alert-success fade in">
-    <a href="#" class="close" data-dismiss="alert">&times;</a>
-    @TempData["successmessage"]
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Success!</strong> @TempData["successmessage"]
 </div>
+
 <div class="row">
     <p>Shopping category page</p>
 </div>

@@ -40,21 +40,28 @@ namespace WebShop.Business
             var startPage = _contentLoader.Get<StartPage>(startPageContentLink);
 
             var cartPages = _contentLoader.GetChildren<ShoppingCartPage>(ContentReference.StartPage).ToList();
-            string cartUrl = string.Empty;
+            var cartUrl = string.Empty;
 
             if (cartPages.Any())
             {
                 cartUrl = _urlResolver.GetUrl(cartPages.First().ContentLink);
             }
 
-            var shoppingPages = _contentLoader.GetChildren<ShoppingCategoryPage>(ContentReference.StartPage).ToList();
-            string shoppingPageUrl = string.Empty;
+            var shoppingCategoryPages = _contentLoader.GetChildren<ShoppingCategoryPage>(ContentReference.StartPage).ToList();
+            var shoppingCategoryPageUrl = string.Empty;
+
+            if (shoppingCategoryPages.Any())
+            {
+                shoppingCategoryPageUrl = _urlResolver.GetUrl(shoppingCategoryPages.First().ContentLink);
+            }
+
+            var shoppingPages = _contentLoader.GetChildren<ShoppingPage>(ContentReference.StartPage).ToList();
+            var shoppingPageUrl = string.Empty;
 
             if (shoppingPages.Any())
             {
-                shoppingPageUrl = _urlResolver.GetUrl(shoppingPages.First().ContentLink);
+                shoppingPageUrl = _urlResolver.GetUrl(shoppingCategoryPages.First().ContentLink);
             }
-            
 
 
             return new LayoutModel
@@ -68,8 +75,10 @@ namespace WebShop.Business
                     LoggedIn = requestContext.HttpContext.User.Identity.IsAuthenticated,
                     LoginUrl = new MvcHtmlString(GetLoginUrl(currentContentLink)),
                     CartUrl = new MvcHtmlString(cartUrl),
+                    ShoppingCategoryPageUrl = new MvcHtmlString(shoppingCategoryPageUrl),
                     ShoppingPageUrl = new MvcHtmlString(shoppingPageUrl),
-                    SearchActionUrl = new MvcHtmlString(EPiServer.Web.Routing.UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
+
+                SearchActionUrl = new MvcHtmlString(EPiServer.Web.Routing.UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
                     IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
                 };
         }

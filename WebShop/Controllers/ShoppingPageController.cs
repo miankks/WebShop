@@ -33,18 +33,16 @@ namespace WebShop.Controllers
                 ProductIdsInCookie = new List<string>()
             };
 
-
-            return View(currentPage);
+            return Content("I am here ");
+            //return View(currentPage);
         }
 
         [HttpPost]
-        public ActionResult Index(ShoppingPage currentPage, ShoppingCartViewModel.CartItem cart, string quantity, string size)
+        public ActionResult Shop(ShoppingPage currentPage, string quantity, string size)
         {
             var cookie = new CookieHelper();
 
-            var vm = new ShoppingCartViewModel(currentPage);
-            cart.NumberOfItems = size;
-            cart.Price = currentPage.ProductPriceFor;
+            
             HttpCookie productCookies = new HttpCookie("ShoppingCart")
             {
                 Expires = DateTime.Now.AddDays(5),
@@ -56,14 +54,9 @@ namespace WebShop.Controllers
 
             cookie.GetCookies(productCookies.Name, productCookies["Quantity"], productCookies["Size"]);
 
-            vm.ProductIdsInCookie = new List<string>
-            {
-                cart.Size,
-                cart.NumberOfItems,
-               Convert.ToString(currentPage.ContentLink.ID)
-            };
+          
 
-            return View(vm);
+            return Content("Hello I am here now");
         }
     }
 }

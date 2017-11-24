@@ -28,50 +28,38 @@ namespace WebShop.Controllers
 
             var model = new ShoppingCategoryPageViewModel(currentPage)
             {
-                ShoppingCategoryPages = categoryPages,
+               ShoppingCategoryPages = categoryPages,
                ShoppingPages = shoppingLinks
             };
             return View(model);
         }
 
-        //[HttpPost]
-        //public ActionResult Index(ShoppingCategoryPage currentPage, ShoppingCartViewModel.CartItem items)
+        [HttpPost]
+        public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
+        {
+            var cookie = new CookieHelper();
+            cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
+
+            TempData["successmessage"] = "Objektet har lagts i korgen!";
+            return RedirectToAction("Index");
+        }
+
+
+
+
+        //public ActionResult ShoppingPage(ShoppingPage currentPage)
         //{
-        //    var cookie = new CookieHelper();
+        //    var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
+           //Response.Write(item.ShoppingPage.Id); 
+           //Response.Write(item.ShoppingPage.ProductPriceFor);
+        //    var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
 
-        //    HttpCookie productCookies = new HttpCookie("ShoppingCart")
+        //    var model = new ShoppingCategoryPageViewModel(currentPage)
         //    {
-        //        Expires = DateTime.Now.AddDays(5),
-        //        ["Size"] = items.Size,
-        //        ["Quantity"] = items.NumberOfItems,
-        //        //["Quantity"] = items.Price,
-        //        ["Price"] = Convert.ToString(items.ShoppingPage.ProductPriceFor),
-        //        ["mainId"] = Convert.ToString(currentPage.ContentLink.ID)
+        //        ShoppingCategoryPages = categoryPages,
+        //        ShoppingPages = shoppingLinks
         //    };
-        //    cookie.GetCookies(productCookies.Name, productCookies["Quantity"], productCookies["Size"]);
-
-        //    var vm = new ShoppingCartViewModel(currentPage);
-        //    vm.ProductIdsInCookie = new List<string>
-        //    {
-        //        items.Size,
-        //        items.NumberOfItems,
-        //        items.ShoppingPage.ProductPriceFor.ToString(),
-        //        //currentPage.ProductName,
-        //        Convert.ToString(currentPage.ContentLink.ID)
-        //    };
-
-        //    TempData["successmessage"] = "Objektet har lagts i korgen!";
-        //    return RedirectToAction("Index", vm);
-
-        //    //return View(vm);
-        //    //var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
-        //    //var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
-        //    //var model = new ShoppingCategoryPageViewModel(currentPage)
-        //    //{
-        //    //    ShoppingCategoryPages = categoryPages,
-        //    //    ShoppingPages = shoppingLinks
-        //    //};
-        //    //return View(model);
+        //    return View(currentPage);
         //}
 
     }
