@@ -42,11 +42,13 @@ namespace WebShop.Controllers
             {
                 cartItems.Size = cookies["Size"];
                 cartItems.NumberOfItems = cookies["Quantity"];
-                //cartItems.Price = Convert.ToDouble( cookies["Price"]);
+                cartItems.Price =Convert.ToDouble(cookies["Price"]) ;
                 vm.ProductIdsInCookie.Add(cartItems.Size);
                 vm.ProductIdsInCookie.Add(cartItems.NumberOfItems);
+                vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.Price) );
                 vm.ProductIdsInCookie.Add(cart.CartId);
             }
+                         
             return View(vm);
         }
 
@@ -62,8 +64,8 @@ namespace WebShop.Controllers
             //    where page.StartPublish > DateTime.Now
             //    orderby page.StartPublish descending 
             //    select page;
-            var vm = new ShoppingCartViewModel(currentPage);
 
+            var vm = new ShoppingCartViewModel(currentPage);
 
 
 
@@ -78,7 +80,8 @@ namespace WebShop.Controllers
                     vm.CartTotal = vm.CartTotal+shoppingPage.ProductPriceFor;
 
             var cookie = new CookieHelper();
-            cookie.GetCookies(currentPage.CartId, sizes, numberOfItems);
+            cookie.GetCookies(currentPage.CartId, sizes, numberOfItems, shoppingPage.ProductPriceFor, productPageId);
+                   // cookie.GetCookies(productPageId);
 
                 }
             }

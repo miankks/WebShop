@@ -34,15 +34,15 @@ namespace WebShop.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
-        {
-            var cookie = new CookieHelper();
-            cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
+        //[HttpPost]
+        //public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
+        //{
+        //    var cookie = new CookieHelper();
+        //    cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
 
-            TempData["successmessage"] = "Objektet har lagts i korgen!";
-            return RedirectToAction("Index");
-        }
+        //    TempData["successmessage"] = "Objektet har lagts i korgen!";
+        //    return RedirectToAction("Index");
+        //}
 
 
 
