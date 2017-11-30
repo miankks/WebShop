@@ -1,5 +1,7 @@
 ﻿@model ShoppingCartViewModel
 
+
+
 <div>
     This is cart
 </div>
@@ -12,16 +14,30 @@
 </div>
 
 <div>
-<button type="submit" name="buy" value="all" class="btn btn-primary btn-large" id="preview">gå vidare</button>
-</div>
-<div id="myDIV">
-    <hr/>
     @foreach (var item in Model.ShoppingCartPages)
     {
-        <h1>@item.CartContentArea</h1>
+        @item.TotalCartPrice
+        @item.CartMoms
     }
 </div>
-
+<div>
+<button type="submit" name="buy" value="all" class="btn btn-primary btn-large" id="preview">gå vidare</button>
+</div>
+<div class="row" id="myDIV">
+    <hr/>
+    @Html.BeginForm("FinishShopping", "ShoppingCartPage", FormMethod.Post)
+    <div class="span4">
+    <input type="text" name="userName" value="userName"/>
+    <input type="text" name="email" value="email" required="" />
+    <input type="text" name="adress" value="adress" required />
+    <input type="submit" name="slutfor" value="slufor" required=""/>
+    <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
+        
+    </div>
+</div>
+<div>
+    
+</div>
 
 
 <script>

@@ -54,6 +54,7 @@ namespace WebShop.Models.Pages
         public virtual double CartMoms
         {
             get => TotalCartPrice * 0.25;
+            set { }
         }
 
         [Display(

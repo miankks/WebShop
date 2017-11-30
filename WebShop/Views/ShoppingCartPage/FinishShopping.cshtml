@@ -1,0 +1,18 @@
+﻿
+@model ShoppingCartViewModel
+
+
+
+<div>
+    Efter köp
+</div>
+
+<div>
+    @foreach (var item in Model.ProductIdsInCookie)
+    {
+        <h3>@item</h3>
+    }
+</div>
+
+Tack för din köp
+Välkommen åter

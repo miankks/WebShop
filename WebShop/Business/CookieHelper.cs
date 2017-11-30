@@ -21,9 +21,9 @@ namespace WebShop.Business
         }
 
         public HttpCookie Cookie;
-        public void GetCookies(string name, string quantity, string size, double price, int productPageId)
+        public void GetCookies(string name, string size, string quantity, double price, int productPageId)
         {
-        
+           
             if (HttpContext.Current.Request[name] == null)
             {
                 Cookie = new HttpCookie("ShoppingCart")

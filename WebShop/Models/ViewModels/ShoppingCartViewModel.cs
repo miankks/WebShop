@@ -12,7 +12,6 @@ namespace WebShop.Models.ViewModels
         {
             this.ProductIdsInCookie = new List<string>();
             this.ShoppingPagesInCart = new List<CartItem>();
-            this.ShoppingPages = new List<ShoppingPage>();
         }
 
         public List<string> ProductIdsInCookie { get; set; }
@@ -21,8 +20,6 @@ namespace WebShop.Models.ViewModels
         public List<ShoppingCartPage> ShoppingCartPages { get; set; }
         public double CartTotal { get; set; }
 
-        public List<ShoppingPage> ShoppingPages { get; set; }
-        public List<ShoppingCategoryPage> ShoppingCategoryPages { get; set; }
 
 
         public class CartItem

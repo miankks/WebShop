@@ -34,33 +34,36 @@ namespace WebShop.Controllers
             return View(model);
         }
 
-        //[HttpPost]
-        //public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
-        //{
-        //    var cookie = new CookieHelper();
-        //    cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
-
-        //    TempData["successmessage"] = "Objektet har lagts i korgen!";
-        //    return RedirectToAction("Index");
-        //}
-
-
-
-
-        //public ActionResult ShoppingPage(ShoppingPage currentPage)
-        //{
-        //    var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
-           //Response.Write(item.ShoppingPage.Id); 
-           //Response.Write(item.ShoppingPage.ProductPriceFor);
-        //    var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
-
-        //    var model = new ShoppingCategoryPageViewModel(currentPage)
-        //    {
-        //        ShoppingCategoryPages = categoryPages,
-        //        ShoppingPages = shoppingLinks
-        //    };
-        //    return View(currentPage);
-        //}
-
     }
 }
+
+#region post action from SCPC
+
+//[HttpPost]
+//public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
+//{
+//    var cookie = new CookieHelper();
+//    cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
+
+//    TempData["successmessage"] = "Objektet har lagts i korgen!";
+//    return RedirectToAction("Index");
+//}
+
+
+
+
+//public ActionResult ShoppingPage(ShoppingPage currentPage)
+//{
+//    var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
+//Response.Write(item.ShoppingPage.Id); 
+//Response.Write(item.ShoppingPage.ProductPriceFor);
+//    var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
+
+//    var model = new ShoppingCategoryPageViewModel(currentPage)
+//    {
+//        ShoppingCategoryPages = categoryPages,
+//        ShoppingPages = shoppingLinks
+//    };
+//    return View(currentPage);
+//}
+#endregion
