@@ -30,7 +30,8 @@ namespace WebShop.Business
                 {
                     ["Quantity"] = quantity,
                     ["Size"] = size,
-                    ["Price"] = Convert.ToString(price)
+                    ["Price"] = Convert.ToString(price),
+                    ["pageId"] = Convert.ToString(productPageId)
                 };
             }
             else

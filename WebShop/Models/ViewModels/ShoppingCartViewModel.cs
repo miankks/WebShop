@@ -12,7 +12,7 @@ namespace WebShop.Models.ViewModels
         {
             this.ProductIdsInCookie = new List<string>();
             this.ShoppingPagesInCart = new List<CartItem>();
-            
+            this.ShoppingPages = new List<ShoppingPage>();
         }
 
         public List<string> ProductIdsInCookie { get; set; }

@@ -9,7 +9,7 @@
 <div class="row">
     @if (Model != null)
     {
-        <form method="post" action="@Model.Layout.CartUrl">
+        <form method="post" action="@Model.Layout.CartUrl" , new { id="myLink"}>
             <div class="span4 media">
                 <div class="mediaImg">
                     @if (Model.CurrentPage.ProductImage != null)
@@ -56,3 +56,19 @@
         </form>
     }
 </div>
+
+@*<script>
+    $("#myLink").click(function (e) {
+
+        e.preventDefault();
+        $.ajax({
+
+            url: $(this).attr("href"), // comma here instead of semicolon   
+            success: function () {
+                alert("Value Added");  // or any other indication if you want to show
+            }
+
+        });
+
+    });
+</script>*@

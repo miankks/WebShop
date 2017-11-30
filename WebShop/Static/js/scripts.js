@@ -10,3 +10,25 @@ $(".clear").click(function () {
     $("#itemCount").html("").css("display", "none");
     $("#cartItems").html("");
 });
+
+$("#myLink").click(function (e) {
+
+    e.preventDefault();
+    $.ajax({
+
+        url: $(this).attr("href"), // comma here instead of semicolon   
+        success: function () {
+            alert("Value Added");  // or any other indication if you want to show
+        }
+
+    });
+
+});
+
+
+$(function () {
+    $("#myDIV").hide();
+    $("#preview").on("click", function () {
+        $("#myDIV").toggle();
+    });
+});

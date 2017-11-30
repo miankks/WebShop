@@ -10,10 +10,26 @@
         <h3>@item</h3>
     }
 </div>
-<button type="submit" name="buy" value="all" class="btn btn-primary btn-large">gå vidare</button>
-@Model.CartTotal
 
-@*@foreach (var item in Model.ShoppingCartPages)
-{
-    @item
-}*@
+<div>
+<button type="submit" name="buy" value="all" class="btn btn-primary btn-large" id="preview">gå vidare</button>
+</div>
+<div id="myDIV">
+    <hr/>
+    @foreach (var item in Model.ShoppingCartPages)
+    {
+        <h1>@item.CartContentArea</h1>
+    }
+</div>
+
+
+
+<script>
+   
+    $(function(){
+        $("#myDIV").hide();
+        $("#preview").on("click", function(){
+            $("#myDIV").toggle();
+        });
+    });
+</script>
