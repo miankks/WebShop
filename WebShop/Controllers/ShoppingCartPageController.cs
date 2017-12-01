@@ -238,8 +238,8 @@ namespace WebShop.Controllers
                     smtp.Host = "smtp-mail.gmail.com";
                     smtp.Port = 587;
                     smtp.EnableSsl = true;
-                    await smtp.SendMailAsync(message);
-                    return RedirectToAction("Index");
+                    //await smtp.SendMailAsync(message);
+                    //return RedirectToAction("Index");
                 }
             }
             return View(vm);

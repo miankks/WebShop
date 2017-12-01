@@ -6,14 +6,34 @@
 <div>
     Efter köp
 </div>
-
-<div>
+<div class="container container-fluid">
+<div class="row">
+    <div class="span1">
+        <h4>Namn</h4>
+    </div>
+    <div class="span1">
+        <h4>Email</h4>
+    </div><div class="span1">
+        <h4>Adress</h4>
+    </div><div class="span1">
+        <h4>Storlek</h4>
+    </div>
+    <div class="span1">
+        <h4>Antal</h4>
+    </div>
+    <div class="span1">
+        <h4>Pris</h4>
+    </div>
+</div>
+<div class="row">
     @foreach (var item in Model.ProductIdsInCookie)
     {
-        <h3>@item</h3>
+        <div class="span1">
+            <h5>@item</h5>
+        </div>
     }
 </div>
-
+</div>
 Tack för din köp
 Välkommen åter
 <br/>
