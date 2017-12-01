@@ -37,19 +37,19 @@ namespace WebShop.Models.Pages
 
         [Display(
             Name = "Cart total price",
-            GroupName = "Price for total objects in cart",
+            GroupName = SystemTabNames.Content,
             Order = 20)]
         public virtual double TotalCartPrice { get; set; }
 
         [Display(
             Name = "Cart item sizes",
-            GroupName = "Price for total objects in cart",
+            GroupName = SystemTabNames.Content,
             Order = 30)]
         public virtual string Size { get; set; }
 
         [Display(
             Name = "Cart Moms",
-            GroupName = "Moms for all objects in cart",
+            GroupName = SystemTabNames.Content,
             Order = 40)]
         public virtual double CartMoms
         {
@@ -59,7 +59,7 @@ namespace WebShop.Models.Pages
 
         [Display(
             Name = "Cart total items",
-            GroupName = "Price for total objects in cart",
+            GroupName = SystemTabNames.Content,
             Order = 30)]
         public virtual string NumberOfItems { get; set; }
 
