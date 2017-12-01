@@ -6,37 +6,67 @@
     This is cart
 </div>
 
-<div>
-    @foreach (var item in Model.ProductIdsInCookie)
+<div class="row">
+    <div class="span1">
+        <h3>Storlek</h3>
+    </div>
+    <div class="span1">
+        <h3>Antal</h3>
+    </div><div class="span1">
+        <h3>Pris</h3>
+    </div><div class="span1">
+        <h3>Moms</h3>
+    </div><div class="span1">
+        <h3>CartId</h3>
+    </div>
+</div>
+<div class="row">
+    @if (Model.ProductIdsInCookie.Count > 0)
     {
-        <h3>@item</h3>
+
+        foreach (var item in Model.ProductIdsInCookie)
+        {
+            <div class="span1">
+                <h5>@item</h5>
+            </div>
+        }
     }
+    else
+    {
+        @TempData["TomVarukorg"]
+    }
+
 </div>
 
 <div>
-    @foreach (var item in Model.ShoppingCartPages)
-    {
-        @item.TotalCartPrice
-        @item.CartMoms
-    }
+    @*@foreach (var item in Model.ShoppingPagesInCart)
+        {*@
+    @*<h3>@item.Size</h3>
+        <h3>@item.NumberOfItems</h3>
+        <h3>@item.CartItemTotal</h3>
+        <h3>@item.TotalMoms</h3>*@
+    @*}*@
 </div>
+
+<br /> <br />
 <div>
-<button type="submit" name="buy" value="all" class="btn btn-primary btn-large" id="preview">gå vidare</button>
+    <button type="submit" name="buy" value="all" class="btn btn-primary btn-large" id="preview">gå vidare</button>
 </div>
 <div class="row" id="myDIV">
-    <hr/>
+    <hr />
     @Html.BeginForm("FinishShopping", "ShoppingCartPage", FormMethod.Post)
     <div class="span4">
-    <input type="text" name="userName" value="userName"/>
-    <input type="text" name="email" value="email" required="" />
-    <input type="text" name="adress" value="adress" required />
-    <input type="submit" name="slutfor" value="slufor" required=""/>
-    <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
-        
+        <input type="text" name="userName" value="userName" />
+        <input type="text" name="email" value="email" />
+        <input type="text" name="adress" value="adress" />
+        <input type="submit" name="slutfor" value="slufor" />
+        <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
     </div>
+
 </div>
 <div>
-    
+
 </div>
+
 
 

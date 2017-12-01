@@ -22,7 +22,7 @@ namespace WebShop.Controllers
     public class ShoppingCartPageController : PageController<ShoppingCartPage>
     {
         private readonly IContentRepository _contentRepository;
-        private int _id;
+        //private int _id;
         public ShoppingCartPageController(IContentRepository contentRepository)
         {
             this._contentRepository = contentRepository;
@@ -30,13 +30,24 @@ namespace WebShop.Controllers
 
         public ActionResult Index(ShoppingCartPage currentPage)
         {
-            var cart = new ShoppingCartPage();
+            #region Commented code
+            //var cart = new ShoppingCartPage();
+            //var shoppingCartPages = _contentRepository.GetChildren<ShoppingCartPage>(currentPage.ContentLink).ToList();
+            //   ShoppingCartPages = shoppingCartPages,
+            //cartItems.CartItemTotal = shoppingPage.ProductPriceFor;
+            // cartItems.CartItemTotal = cartItems.CartItemTotal * Convert.ToDouble(cartItems.NumberOfItems);
+            //vm.ShoppingCartPages.Add(currentPage);
+            //vm.ShoppingPagesInCart.Add(cartItems);
+            //return JsonRequestBehavior.AllowGet;
+                //_id = Convert.ToInt32(cookies["pageId"]);
+                //var reference = new ContentReference(_id);
+                //var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
+            #endregion
+
             var cartItems = new ShoppingCartViewModel.CartItem();
-           var shoppingCartPages = _contentRepository.GetChildren<ShoppingCartPage>(currentPage.ContentLink).ToList();
 
             var vm = new ShoppingCartViewModel(currentPage)
             {
-                ShoppingCartPages = shoppingCartPages,
                 ProductIdsInCookie = new List<string>()
             };
 
@@ -45,21 +56,19 @@ namespace WebShop.Controllers
 
             if (cookies != null)
             {
-                _id = Convert.ToInt32(cookies["pageId"]);
-                var reference = new ContentReference(_id);
-                var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
-                cartItems.Price = shoppingPage.ProductPriceFor;
                 cartItems.Size = cookies["Size"];
                 cartItems.NumberOfItems = cookies["Quantity"];
-                cartItems.Price = Convert.ToDouble(cookies["Price"]);
-                cartItems.Price = cartItems.Price * Convert.ToDouble(cartItems.NumberOfItems);
+                cartItems.CartItemTotal = Convert.ToDouble(cookies["Price"]);
                 vm.ProductIdsInCookie.Add(cartItems.Size);
-                vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.NumberOfItems));
-                vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.Price, CultureInfo.InvariantCulture));
-                vm.ProductIdsInCookie.Add(cart.CartId);
-                vm.ShoppingCartPages.Add(currentPage);
+                vm.ProductIdsInCookie.Add(cartItems.NumberOfItems);
+                vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.CartItemTotal));
+                vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.TotalMoms));
+                vm.ProductIdsInCookie.Add(currentPage.CartId);
             }
-
+            else
+            {
+                TempData["TomVarukorg"] = "Varukorg är tom";
+            }
             return View(vm);
         }
 
@@ -75,11 +84,12 @@ namespace WebShop.Controllers
                 if (shoppingPage != null)
                 {
                     // TODO: Add to cart
-                    vm.CartTotal = vm.CartTotal + shoppingPage.ProductPriceFor;
-                    cartData.Price = shoppingPage.ProductPriceFor;
-                    cartData.CartItemTotal = cartData.CartItemTotal + shoppingPage.ProductPriceFor;
+                    vm.CartTotal = Convert.ToDouble(numberOfItems) * shoppingPage.ProductPriceFor;
+                    //cartData.CartItemTotal = shoppingPage.ProductPriceFor;
+                    //cartData.CartItemTotal = vm.CartTotal;
+                    var moms = cartData.TotalMoms;
                     var cookie = new CookieHelper();
-                    cookie.GetCookies(currentPage.CartId, sizes, numberOfItems, shoppingPage.ProductPriceFor, productPageId);
+                    cookie.GetCookies(sizes, numberOfItems, vm.CartTotal, productPageId, moms);
                 }
             }
 

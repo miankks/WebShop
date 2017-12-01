@@ -49,8 +49,7 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
-    
-                 <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
+                <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
                 <input type="submit" class="btn btn-primary add" value="+ Läg till">
             </div>
         </form>
@@ -58,6 +57,7 @@
 </div>
 
 @*<script>
+
     $("#myLink").click(function (e) {
 
         e.preventDefault();
@@ -71,4 +71,22 @@
         });
 
     });
+</script>*@
+@*<script>
+    $.ajax({
+        type: "POST",
+        url: '/ProductAsync/GetProductData',
+        data: JSON.stringify({
+            Shopping: currentPage
+        }),
+        contentType: "application/json; charset=utf-8",
+        success: function (returndata) {
+
+            $('div#' + currentPage).empty().html(returndata);
+
+            var productDataJson = $.cookie(currentPage + "-ProductData");
+            alert(productDataJson);
+
+        }
+    }); 
 </script>*@

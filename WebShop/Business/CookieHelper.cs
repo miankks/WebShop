@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using EPiServer;
 using EPiServer.Core;
+using Microsoft.Ajax.Utilities;
 using WebShop.Models.Pages;
 
 namespace WebShop.Business
@@ -21,17 +22,18 @@ namespace WebShop.Business
         }
 
         public HttpCookie Cookie;
-        public void GetCookies(string name, string size, string quantity, double price, int productPageId)
+        public void GetCookies( string size, string quantity, double price, int productPageId, double moms)
         {
            
-            if (HttpContext.Current.Request[name] == null)
+            if (HttpContext.Current.Request["ShoppingCart"] == null)
             {
                 Cookie = new HttpCookie("ShoppingCart")
                 {
                     ["Quantity"] = quantity,
                     ["Size"] = size,
                     ["Price"] = Convert.ToString(price),
-                    ["pageId"] = Convert.ToString(productPageId)
+                    ["pageId"] = Convert.ToString(productPageId),
+                    ["Moms"] = Convert.ToString(productPageId),
                 };
             }
             else
@@ -43,6 +45,7 @@ namespace WebShop.Business
                     Cookie["Size"] = size;
                     Cookie["Price"] = Convert.ToString(price);
                     Cookie["pageId"] = Convert.ToString(productPageId);
+                    Cookie["Moms"] = Convert.ToString(productPageId);
                 }
 }
             if (Cookie != null)

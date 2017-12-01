@@ -509,8 +509,8 @@
     <Content Include="Views\ArticlePage\Index.cshtml" />
     <Content Include="Views\ShoppingCategoryPage\Index.cshtml" />
     <Content Include="Views\ShoppingPage\Index.cshtml" />
-    <Content Include="Views\ShoppingCartPage\Index.cshtml" />
     <Content Include="Views\ShoppingCartPage\FinishShopping.cshtml" />
+    <Content Include="Views\ShoppingCartPage\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

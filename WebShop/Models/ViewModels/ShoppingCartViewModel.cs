@@ -32,7 +32,12 @@ namespace WebShop.Models.ViewModels
 
             public string Size { get; set; }
 
-            public double Price { get; set; }
+
+            public double TotalMoms
+            {
+                get { return CartItemTotal * .25; }
+                set { }
+            }
         }
     }
 }
