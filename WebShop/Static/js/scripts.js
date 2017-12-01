@@ -26,9 +26,9 @@ $("#myLink").click(function (e) {
 });
 
 
-$(function () {
-    $("#myDIV").hide();
-    $("#preview").on("click", function () {
-        $("#myDIV").toggle();
-    });
-});
+//$(function () {
+//    $("#myDIV").hide();
+//    $("#preview").on("click", function () {
+//        $("#myDIV").toggle();
+//    });
+//});

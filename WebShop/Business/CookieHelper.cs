@@ -42,7 +42,7 @@ namespace WebShop.Business
                     Cookie["Quantity"] = quantity;
                     Cookie["Size"] = size;
                     Cookie["Price"] = Convert.ToString(price);
-
+                    Cookie["pageId"] = Convert.ToString(productPageId);
                 }
 }
             if (Cookie != null)
