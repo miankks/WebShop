@@ -50,8 +50,9 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
-                <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID"/>
-                <input type="submit" class="btn btn-primary add" value="+ Läg till">
+                <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
+                <input type="hidden" name="productPageName" value="@Model.CurrentPage.Name"/>
+                <input type="submit" class="btn btn-primary add" value="+ Läg till" id="myLink">
             </div>
     }
             else
@@ -63,22 +64,22 @@
     
 </div>
 
-@*<script>
+<script>
 
-    $("#myLink").click(function (e) {
+    //$("#myLink").click(function (e) {
 
-        e.preventDefault();
-        $.ajax({
+    //    e.preventDefault();
+    //    $.ajax({
 
-            url: $(this).attr("href"), // comma here instead of semicolon   
-            success: function () {
-                alert("Value Added");  // or any other indication if you want to show
-            }
+    //        url: $(this).attr("href"), // comma here instead of semicolon   
+    //        success: function () {
+    //            //alert("Value Added");  // or any other indication if you want to show
+    //        }
 
-        });
+    //    });
 
-    });
-</script>*@
+   // });
+</script>
 @*<script>
     $.ajax({
         type: "POST",

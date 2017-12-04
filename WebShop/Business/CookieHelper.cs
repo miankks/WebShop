@@ -23,7 +23,7 @@ namespace WebShop.Business
         }
 
         public HttpCookie Cookie;
-        public void GetCookies( string size, string quantity, double price, int productPageId)
+        public void GetCookies( string size, string quantity, double price, int productPageId, string productPageName)
         {
            
             if (HttpContext.Current.Request["ShoppingCart"] == null)
@@ -36,9 +36,9 @@ namespace WebShop.Business
                     ["Quantity"] = quantity,
                     ["Price"] = Convert.ToString(price),
                     ["pageId"] = Convert.ToString(productPageId),
+                    ["pageName"] = productPageName,
                     //["Moms"] = Convert.ToString(moms),
                     //Value = size + "   " + quantity + "   " + price 
-
                 };
             }
             else
@@ -49,9 +49,10 @@ namespace WebShop.Business
                //     Convert.ToString(productPageId);
                 if (Cookie != null)
                 {
-                    Cookie.Values["Quantity"] = quantity;
-                    Cookie.Values["Size"] = size;
-                    Cookie.Values["Price"] = Convert.ToString(price);
+                    Cookie["Quantity"] = quantity;
+                    Cookie["Size"] = size;
+                    Cookie["Price"] = Convert.ToString(price);
+                    Cookie["pageName"] = productPageName;
                     //Cookie["Moms"] = Convert.ToString(moms);
                     //Cookie.Values["pageId"] = Convert.ToString(productPageId);
                     //Cookie.Value = Cookie.Value + "|" + size + "   " + quantity + "   " + price;
