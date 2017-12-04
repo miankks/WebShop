@@ -65,20 +65,36 @@
 </div>
 
 <script>
+    var itemCount = 0;
 
-    //$("#myLink").click(function (e) {
+    $(".add").click(function () {
+        itemCount++;
+        if (itemCount<=10) {
+        $("#itemCount").html(itemCount).css("display", "block");
+            } else {
+            alert("You can not add more than 10 items");
+        }
+    });
 
-    //    e.preventDefault();
-    //    $.ajax({
+    $(".clear").click(function () {
+        itemCount = 0;
+        $("#itemCount").html("").css("display", "none");
+        $("#cartItems").html("");
+    });
+    $("#myLink").click(function (e) {
 
-    //        url: $(this).attr("href"), // comma here instead of semicolon   
-    //        success: function () {
-    //            //alert("Value Added");  // or any other indication if you want to show
-    //        }
+        e.preventDefault();
+        $.ajax({
 
-    //    });
+            url: $(this).attr("href"), // comma here instead of semicolon   
+            success: function () {
+                //alert("Value Added");  // or any other indication if you want to show
+            }
+            // form serialize
+            // onsubmit
+        });
 
-   // });
+     });
 </script>
 @*<script>
     $.ajax({
