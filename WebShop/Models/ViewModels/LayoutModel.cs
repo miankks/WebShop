@@ -22,7 +22,6 @@ namespace WebShop.Models.ViewModels
         public MvcHtmlString SearchActionUrl { get; set; }
         public MvcHtmlString CartUrl { get; set; }
         public MvcHtmlString ShoppingCategoryPageUrl { get; set; }
-        public MvcHtmlString ShoppingPageUrl { get; set; }
         public bool IsInReadonlyMode {get;set;}
     }
 }

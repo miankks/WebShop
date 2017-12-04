@@ -60,11 +60,14 @@ namespace WebShop.Controllers
                 cartItems.Size = cookies["Size"];
                 cartItems.NumberOfItems = cookies["Quantity"];
                 cartItems.CartItemTotal = Convert.ToDouble(cookies["Price"]);
+                cartItems.TotalMoms = Convert.ToDouble(cookies["Moms"]);
                 vm.ProductIdsInCookie.Add(cartItems.Size);
                 vm.ProductIdsInCookie.Add(cartItems.NumberOfItems);
                 vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.CartItemTotal));
                 vm.ProductIdsInCookie.Add(Convert.ToString(cartItems.TotalMoms));
                 vm.ProductIdsInCookie.Add(currentPage.CartId);
+
+                //vm.ProductIdsInCookie.Add(cookies.Value);
             }
             else
             {
@@ -76,7 +79,6 @@ namespace WebShop.Controllers
         [HttpPost]
         public ActionResult Index(ShoppingCartPage currentPage, string sizes, string numberOfItems, int productPageId)
         {
-            var cartData = new ShoppingCartViewModel.CartItem();
             var vm = new ShoppingCartViewModel(currentPage);
                 var reference = new ContentReference(productPageId);
                 var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
@@ -86,11 +88,9 @@ namespace WebShop.Controllers
                 {
                     // TODO: Add to cart
                     vm.CartTotal = Convert.ToDouble(numberOfItems) * shoppingPage.ProductPriceFor;
-                    //cartData.CartItemTotal = shoppingPage.ProductPriceFor;
-                    //cartData.CartItemTotal = vm.CartTotal;
-                    var moms = cartData.TotalMoms;
+                    
                     var cookie = new CookieHelper();
-                    cookie.GetCookies(sizes, numberOfItems, vm.CartTotal, productPageId, moms);
+                    cookie.GetCookies(sizes, numberOfItems, vm.CartTotal, productPageId);
                 }
             }
 
@@ -195,7 +195,7 @@ namespace WebShop.Controllers
 
         [HttpPost]
         //[ValidateAntiForgeryToken]
-        public async Task<ActionResult> FinishShopping(ShoppingCartPage currentPage, string userName, string email, string adress, int productPageId)
+        public ActionResult FinishShopping(ShoppingCartPage currentPage, string userName, string email, string adress, int productPageId)
         {
             HttpCookie cookies = Request.Cookies["ShoppingCart"];
             var vm = new ShoppingCartViewModel(currentPage);
@@ -210,36 +210,36 @@ namespace WebShop.Controllers
             }
             if (ModelState.IsValid)
             {
-                var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                    var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
                 var message = new MailMessage();
                 //message.To.Add(new MailAddress("recipient@gmail.com"));  // replace with valid value 
-                message.To.Add(new MailAddress(email));  // replace with valid value 
-                message.From = new MailAddress("sender@gmail.com");  // replace with valid value
+                message.To.Add(new MailAddress(email));   
+                message.From = new MailAddress("bilal@bilal.com"); 
                 message.Subject = "Köp klart";
-                //message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
-                message.Body = string.Format(body, userName, email,adress);
                 if (cookies != null)
                 {
-                    message.Body += cookies["Size"];
-                    message.Body += cookies["Quantity"];
-                    message.Body += cookies["Price"];
+                    body += cookies["Size"];
+                    body += cookies["Quantity"];
+                    body += cookies["Price"];
                 }
+                //message.Body = string.Format(body, model.FromName, model.FromEmail, model.Message);
+                message.Body = string.Format(body, userName, email,  message);
+               
 
                 message.IsBodyHtml = true;
 
                 using (var smtp = new SmtpClient())
                 {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = "user@gmail.com",  // replace with valid value
-                        Password = "password"  // replace with valid value
-                    };
-                    smtp.Credentials = credential;
-                    smtp.Host = "smtp-mail.gmail.com";
-                    smtp.Port = 587;
-                    smtp.EnableSsl = true;
-                    //await smtp.SendMailAsync(message);
-                    //return RedirectToAction("Index");
+                    smtp.Send(message);
+                    //if (Request.Cookies["ShoppingCart"] != null)
+                    //{
+                    //    var c = new HttpCookie("ShoppingCart")
+                    //    {
+                    //        Expires = DateTime.Now.AddDays(-1)
+                    //    };
+                    //    Response.Cookies.Add(c);
+                    //}
+                    return RedirectToAction("Index");
                 }
             }
             return View(vm);

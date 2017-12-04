@@ -3,7 +3,7 @@
 @{
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
 }
-<button class="add">+ Add to cart</button>
+@*<button class="add">+ Add to cart</button>*@
 <h3 @Html.EditAttributes(x => x.CurrentPage.Name)> @Html.PropertyFor(x => x.CurrentPage.Name)</h3>
 
 <div class="row">
@@ -26,6 +26,7 @@
                     <h5>Produkt Id: @Html.DisplayFor(x => x.CurrentPage.Id)</h5>
                 </div>
             </div>
+    @if(@Model.CurrentPage.Productavailability == true) { 
             <div class="span4">
                 @Html.PropertyFor(x => x.CurrentPage.ProductDecscription)
                 <br/>
@@ -49,11 +50,17 @@
                     <option value="9">9</option>
                     <option value="10">10</option>
                 </select>
-                <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
+                <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID"/>
                 <input type="submit" class="btn btn-primary add" value="+ Läg till">
             </div>
-        </form>
     }
+            else
+            {
+            <h3>  Produkten finns inte i lagar </h3>
+            }
+        </form>
+            }
+    
 </div>
 
 @*<script>

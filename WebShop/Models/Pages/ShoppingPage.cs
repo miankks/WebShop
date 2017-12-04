@@ -77,5 +77,11 @@ namespace WebShop.Models.Pages
         [CultureSpecific]
         public virtual ContentArea ProductContentArea { get; set; }
 
+        [Display(
+            Name = "Product availability",
+            GroupName = SystemTabNames.Content,
+            Order = 60)]
+        public virtual bool Productavailability { get; set; }
+
     }
 }

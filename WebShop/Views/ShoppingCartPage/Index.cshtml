@@ -13,10 +13,6 @@
             <h3>Antal</h3>
         </div><div class="span1">
             <h3>Pris</h3>
-        </div><div class="span1">
-            <h3>Moms</h3>
-        </div><div class="span1">
-            <h3>CartId</h3>
         </div>
     </div>
 <div class="row">
@@ -27,9 +23,9 @@
                     {
                             <div class="span1">
                                 <h4>@item</h4> 
-                                </div>
+                            </div>
                     }
-            <div class="span2">
+            <div class="span2 pull-right">
                 @Html.ActionLink("Radera", "Delete", "ShoppingCartPage")
             </div>
     }
@@ -37,6 +33,8 @@
     {
         <div class="span4">
         @TempData["TomVarukorg"]
+            <br/>
+            <h3>   @Html.ActionLink("Tillbaka till butiken", "Index", Model.Layout.ShoppingCategoryPageUrl) </h3>
         </div>
     }
 
@@ -65,6 +63,19 @@
 </div>
 
 
+
+<script>
+    $(function () {
+    $("#myDIV").hide();
+    $("#preview").on("click", function () {
+        $("#myDIV").toggle();
+    });
+});
+</script>
+        @*</div><div class="span1">
+            <h3>Moms</h3>
+        </div><div class="span1">
+            <h3>CartId</h3>*@
 @*<div>
         foreach (var item in Model.ShoppingPagesInCart)
             {
@@ -74,5 +85,3 @@
             <h3>@item.TotalMoms</h3>
         }
     </div>*@
-
-

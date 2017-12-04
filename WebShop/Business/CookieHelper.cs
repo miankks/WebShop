@@ -5,6 +5,7 @@ using System.Web;
 using EPiServer;
 using EPiServer.Core;
 using Microsoft.Ajax.Utilities;
+using SendGrid;
 using WebShop.Models.Pages;
 
 namespace WebShop.Business
@@ -22,30 +23,38 @@ namespace WebShop.Business
         }
 
         public HttpCookie Cookie;
-        public void GetCookies( string size, string quantity, double price, int productPageId, double moms)
+        public void GetCookies( string size, string quantity, double price, int productPageId)
         {
            
             if (HttpContext.Current.Request["ShoppingCart"] == null)
             {
+                
                 Cookie = new HttpCookie("ShoppingCart")
                 {
-                    ["Quantity"] = quantity,
+
                     ["Size"] = size,
+                    ["Quantity"] = quantity,
                     ["Price"] = Convert.ToString(price),
                     ["pageId"] = Convert.ToString(productPageId),
-                    ["Moms"] = Convert.ToString(productPageId),
+                    //["Moms"] = Convert.ToString(moms),
+                    //Value = size + "   " + quantity + "   " + price 
+
                 };
             }
             else
             {
                 Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
+               //HttpContext.Current.Response.Cookies["value"].Value =
+               //     quantity + size + Convert.ToString(price) + Convert.ToString(productPageId) +
+               //     Convert.ToString(productPageId);
                 if (Cookie != null)
                 {
-                    Cookie["Quantity"] = quantity;
-                    Cookie["Size"] = size;
-                    Cookie["Price"] = Convert.ToString(price);
-                    Cookie["pageId"] = Convert.ToString(productPageId);
-                    Cookie["Moms"] = Convert.ToString(productPageId);
+                    Cookie.Values["Quantity"] = quantity;
+                    Cookie.Values["Size"] = size;
+                    Cookie.Values["Price"] = Convert.ToString(price);
+                    //Cookie["Moms"] = Convert.ToString(moms);
+                    //Cookie.Values["pageId"] = Convert.ToString(productPageId);
+                    //Cookie.Value = Cookie.Value + "|" + size + "   " + quantity + "   " + price;
                 }
 }
             if (Cookie != null)
