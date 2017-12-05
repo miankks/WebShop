@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Shell.ObjectEditing;
+using EPiServer.Shell.ObjectEditing.EditorDescriptors;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web;
 using WebShop.Models.ViewModels;
@@ -83,12 +86,33 @@ namespace WebShop.Models.Pages
             Order = 60)]
         public virtual bool Productavailability { get; set; }
 
-        [Display(
-            Name = "Product Size",
-            GroupName = SystemTabNames.Content,
-            Order = 60)]
-        public virtual string ProductSize { get; set; }
+        //[Display(GroupName = "Sizes", Order = 70)]
+        //[UIHint("CustomLanguage")]
+        //public virtual string ProductSize { get; set; }
+        //public class LanguageSelectorSelectionFactory : ISelectionFactory
+        //{
+        //    public IEnumerable<ISelectItem> GetSelections(ExtendedMetadata metadata)
+        //    {
+        //        var typeOfLanguage = new List<SelectItem>
+        //        {
+        //            new SelectItem() {Value = "sm", Text = "Small"},
+        //            new SelectItem() {Value = "md", Text = "Medium"},
+        //            new SelectItem() {Value = "lg", Text = "Large"}
+        //        };
 
+        //        return typeOfLanguage;
+        //    }
+        //}
 
+        //[EditorDescriptorRegistration(TargetType = typeof(string), UIHint = "CustomLanguage")]
+        //public class LanguageMultipleEditorDescriptor : EditorDescriptor
+        //{
+        //    public override void ModifyMetadata(ExtendedMetadata metadata, IEnumerable<Attribute> attributes)
+        //    {
+        //        SelectionFactoryType = typeof(LanguageSelectorSelectionFactory);
+        //        ClientEditingClass = "epi.cms.contentediting.editors.SelectionEditor";
+        //        base.ModifyMetadata(metadata, attributes);
+        //    }
+        //}
     }
 }

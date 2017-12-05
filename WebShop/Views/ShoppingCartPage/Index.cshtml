@@ -5,7 +5,7 @@
 
 
 
-<div class="row">
+@*<div class="row">
     <div class="span1">
         <h5>Produkt Namn</h5>
     </div>
@@ -21,12 +21,12 @@
     <div class="span1">
         <h4>Moms</h4>
     </div>
-</div>
+</div>*@
 <div class="row">
     @if (Model.CartItems.Count > 0)
     {
 
-        foreach (var item in Model.CartItems)
+        @*foreach (var item in Model.CartItems)
         {
             <div class="span1">
                 <a href="@Model.Layout.ShoppingPageUrl">  <h4 style="color: chocolate">@item.ProductName</h4></a>
@@ -46,11 +46,34 @@
             <div class="span1">
                 <h4  style="color: chocolate; height: 20px; width: 20px">@item.ImageId</h4>
             </div>
-        }
-
-    <div class="span2 pull-right">
+        }*@
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Produkt Namn</th>
+                <th>Storlek</th>
+                <th>Antal</th>
+                <th>Pris</th>
+                <th>Moms</th>
+            </tr>
+            </thead>
+            @foreach (var item in Model.CartItems)
+            {
+            <tbody>
+            <tr>
+                <td style="color: chocolate">@item.ProductName</td>
+                <td style="color: chocolate">@item.Size</td>
+                <td style="color: chocolate">@item.NumberOfItems</td>
+                <td style="color: chocolate">@item.Price</td>
+                <td style="color: chocolate">@item.TotalMoms</td>
+                <td>@Html.ActionLink("Radera", "Delete", "ShoppingCartPage")</td>
+            </tr>
+            </tbody>
+            }
+        </table>
+    @*<div class="span2 pull-right">
         @Html.ActionLink("Radera", "Delete", "ShoppingCartPage")
-    </div>
+    </div>*@
     }
     else
     {

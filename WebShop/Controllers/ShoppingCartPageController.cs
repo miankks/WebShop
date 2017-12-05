@@ -19,7 +19,6 @@ namespace WebShop.Controllers
     public class ShoppingCartPageController : PageController<ShoppingCartPage>
     {
         private readonly IContentRepository _contentRepository;
-        //private int _id;
         public ShoppingCartPageController(IContentRepository contentRepository)
         {
             this._contentRepository = contentRepository;
@@ -59,9 +58,8 @@ namespace WebShop.Controllers
                 ProductName = productPageName,
                 ImageId = shoppingPage.ProductImage.ID
             };
-
-
-            string output = JsonConvert.SerializeObject(currentCookieCart);
+            string output = JsonConvert.SerializeObject(currentCookieCart, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented });
+            //string output = JsonConvert.SerializeObject(currentCookieCart);
             var cookie = new CookieHelper();
             cookie.GetCookies(output);
 
@@ -72,12 +70,12 @@ namespace WebShop.Controllers
 
         public ActionResult DeleteCookies()
         {
-            var urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
-            var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-            var resultPage = contentLoader.Get<StartPage>(ContentReference.StartPage);
-            var pageUrl = urlResolver.GetVirtualPath(resultPage.ContentLink);
-            //var reference = new ContentReference(resultPage);
-            //var shoppingPage = this._contentRepository.Get<StartPage>(reference);
+            //var urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
+            //var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            //var resultPage = contentLoader.Get<StartPage>(ContentReference.StartPage);
+            //var pageUrl = urlResolver.GetVirtualPath(resultPage.ContentLink);
+            ////var reference = new ContentReference(resultPage);
+            ////var shoppingPage = this._contentRepository.Get<StartPage>(reference);
             if (Request.Cookies["ShoppingCart"] != null)
             {
                 var c = new HttpCookie("ShoppingCart")
