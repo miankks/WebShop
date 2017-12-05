@@ -55,22 +55,29 @@ namespace WebShop.Business
                 shoppingCategoryPageUrl = _urlResolver.GetUrl(shoppingCategoryPages.First().ContentLink);
             }
 
-            return new LayoutModel
-                {
-                    Logotype = startPage.SiteLogotype,
-                    LogotypeLinkUrl = new MvcHtmlString(_urlResolver.GetUrl(SiteDefinition.Current.StartPage)),
-                    ProductPages = startPage.ProductPageLinks,
-                    CompanyInformationPages = startPage.CompanyInformationPageLinks,
-                    NewsPages = startPage.NewsPageLinks,
-                    CustomerZonePages = startPage.CustomerZonePageLinks,
-                    LoggedIn = requestContext.HttpContext.User.Identity.IsAuthenticated,
-                    LoginUrl = new MvcHtmlString(GetLoginUrl(currentContentLink)),
-                    CartUrl = new MvcHtmlString(cartUrl),
-                    ShoppingCategoryPageUrl = new MvcHtmlString(shoppingCategoryPageUrl),
+            var shoppingPages = _contentLoader.GetChildren<ShoppingPage>(ContentReference.StartPage).ToList();
+            var ShoppingPageUrl = string.Empty;
+            if (shoppingPages.Any())
+            {
+                ShoppingPageUrl = _urlResolver.GetUrl(shoppingPages.First().ContentLink);
+            }
 
+            return new LayoutModel
+            {
+                Logotype = startPage.SiteLogotype,
+                LogotypeLinkUrl = new MvcHtmlString(_urlResolver.GetUrl(SiteDefinition.Current.StartPage)),
+                ProductPages = startPage.ProductPageLinks,
+                CompanyInformationPages = startPage.CompanyInformationPageLinks,
+                NewsPages = startPage.NewsPageLinks,
+                CustomerZonePages = startPage.CustomerZonePageLinks,
+                LoggedIn = requestContext.HttpContext.User.Identity.IsAuthenticated,
+                LoginUrl = new MvcHtmlString(GetLoginUrl(currentContentLink)),
+                CartUrl = new MvcHtmlString(cartUrl),
+                ShoppingCategoryPageUrl = new MvcHtmlString(shoppingCategoryPageUrl),
+                ShoppingPageUrl = new MvcHtmlString(ShoppingPageUrl),
                 SearchActionUrl = new MvcHtmlString(EPiServer.Web.Routing.UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
-                    IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
-                };
+                IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
+            };
         }
 
         private string GetLoginUrl(ContentReference returnToContentLink)

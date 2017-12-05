@@ -1,4 +1,4 @@
-﻿@model ShoppingCartViewModel
+﻿@model CookieCart
 
 
 
@@ -10,39 +10,55 @@
         <h5>Produkt Namn</h5>
     </div>
     <div class="span1">
-        <h3>Storlek</h3>
+        <h4>Storlek</h4>
     </div>
     <div class="span1">
-        <h3>Antal</h3>
+        <h4>Antal</h4>
     </div>
     <div class="span1">
-        <h3>Pris</h3>
+        <h4>Pris</h4>
     </div>
     <div class="span1">
-        <h3>Moms</h3>
+        <h4>Moms</h4>
     </div>
 </div>
 <div class="row">
-    @if (Model.ProductIdsInCookie.Count > 0)
+    @if (Model.CartItems.Count > 0)
     {
-       
-                   foreach (var item in Model.ProductIdsInCookie)
-                    {
-                            <div class="span1">
-                                <h4 style="color: chocolate">@item</h4> 
-                            </div>
-                    }
-            <div class="span2 pull-right">
-                @Html.ActionLink("Radera", "Delete", "ShoppingCartPage")
+
+        foreach (var item in Model.CartItems)
+        {
+            <div class="span1">
+                <a href="@Model.Layout.ShoppingPageUrl">  <h4 style="color: chocolate">@item.ProductName</h4></a>
             </div>
+            <div class="span1">
+                <h4 style="color: chocolate">@item.Size</h4>
+            </div>
+            <div class="span1">
+                <h4 style="color: chocolate">@item.NumberOfItems</h4>
+            </div>
+            <div class="span1">
+                <h4 style="color: chocolate">@item.Price</h4>
+            </div>
+            <div class="span1">
+                <h4 style="color: chocolate">@item.TotalMoms</h4>
+            </div>
+            <div class="span1">
+                <h4  style="color: chocolate; height: 20px; width: 20px">@item.ImageId</h4>
+            </div>
+        }
+
+    <div class="span2 pull-right">
+        @Html.ActionLink("Radera", "Delete", "ShoppingCartPage")
+    </div>
     }
     else
     {
-        <div class="span4">
+    <div class="span4">
         @TempData["TomVarukorg"]
-            <br/>
-            <h4>   @Html.ActionLink("Tillbaka till start sidan", "ToShoppingPage", "ShoppingCartPage") </h4>
-        </div>
+        <br />
+        <h4>   @Html.ActionLink("Tillbaka till start sidan", "ToShoppingPage", "ShoppingCartPage") </h4>
+    </div>
     }
 
 </div>
@@ -69,11 +85,10 @@
 <div>
 </div>
 
-
-        @*</div><div class="span1">
-            <h3>Moms</h3>
-        </div><div class="span1">
-            <h3>CartId</h3>*@
+@*</div><div class="span1">
+        <h3>Moms</h3>
+    </div><div class="span1">
+        <h3>CartId</h3>*@
 @*<div>
         foreach (var item in Model.ShoppingPagesInCart)
             {

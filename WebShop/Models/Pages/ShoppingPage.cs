@@ -83,5 +83,12 @@ namespace WebShop.Models.Pages
             Order = 60)]
         public virtual bool Productavailability { get; set; }
 
+        [Display(
+            Name = "Product Size",
+            GroupName = SystemTabNames.Content,
+            Order = 60)]
+        public virtual string ProductSize { get; set; }
+
+
     }
 }

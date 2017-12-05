@@ -38,7 +38,7 @@
                                     <div id="cart-container">
                                         <div id="cart">
                                             <a href="@Model.Layout.CartUrl"> <i class="fa fa-shopping-cart fa-3x" aria-hidden="true"></i></a>
-                                            <button class="clear">Empty Cart</button>
+                                            @Html.ActionLink("Radera", "Delete", "ShoppingCartPage")
                                         </div>
                                         <span id="itemCount"></span>
                                     </div>

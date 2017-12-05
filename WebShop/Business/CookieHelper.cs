@@ -23,41 +23,25 @@ namespace WebShop.Business
         }
 
         public HttpCookie Cookie;
-        public void GetCookies( string size, string quantity, double price, int productPageId, string productPageName)
+        public void GetCookies(string output)
         {
-           
+
             if (HttpContext.Current.Request["ShoppingCart"] == null)
             {
-                
+
                 Cookie = new HttpCookie("ShoppingCart")
                 {
-
-                    ["Size"] = size,
-                    ["Quantity"] = quantity,
-                    ["Price"] = Convert.ToString(price),
-                    ["pageId"] = Convert.ToString(productPageId),
-                    ["pageName"] = productPageName,
-                    //["Moms"] = Convert.ToString(moms),
-                    //Value = size + "   " + quantity + "   " + price 
+                    Value = output
                 };
             }
             else
             {
                 Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
-               //HttpContext.Current.Response.Cookies["value"].Value =
-               //     quantity + size + Convert.ToString(price) + Convert.ToString(productPageId) +
-               //     Convert.ToString(productPageId);
                 if (Cookie != null)
                 {
-                    Cookie["Quantity"] = quantity;
-                    Cookie["Size"] = size;
-                    Cookie["Price"] = Convert.ToString(price);
-                    Cookie["pageName"] = productPageName;
-                    //Cookie["Moms"] = Convert.ToString(moms);
-                    //Cookie.Values["pageId"] = Convert.ToString(productPageId);
-                    //Cookie.Value = Cookie.Value + "|" + size + "   " + quantity + "   " + price;
+                    Cookie.Value =  output;
                 }
-}
+            }
             if (Cookie != null)
             {
                 Cookie.Expires = DateTime.Now.AddDays(4);
@@ -65,9 +49,69 @@ namespace WebShop.Business
             }
         }
 
+        //public void Cookies_Set(string key, string value)
+        //{
+        //    HttpCookie cookie = new HttpCookie(key, value);
+        //    cookie.Expires = DateTime.Now.AddDays(4);
 
+        //    HttpContext.Current.Response.SetCookie(cookie);
+        //}
+
+
+        //public string Cookies_Get(string key)
+        //{
+        //    string value = "";
+        //    if (HttpContext.Current.Request.Cookies.AllKeys.Contains(key))
+        //    {
+        //        value = HttpContext.Current.Request.Cookies[key]?.Value;
+        //    }
+
+        //    return value;
+        //}
     }
 }
+        //        public void GetCookies( string size, string quantity, double price, int productPageId, string productPageName)
+        //        {
+
+        //            if (HttpContext.Current.Request["ShoppingCart"] == null)
+        //            {
+
+        //                Cookie = new HttpCookie("ShoppingCart")
+        //                {
+
+        //                    ["Size"] = size,
+        //                    ["Quantity"] = quantity,
+        //                    ["Price"] = Convert.ToString(price),
+        //                    ["pageId"] = Convert.ToString(productPageId),
+        //                    ["pageName"] = productPageName,
+        //                    //["Moms"] = Convert.ToString(moms),
+        //                    //Value = size + "   " + quantity + "   " + price 
+        //                };
+        //            }
+        //            else
+        //            {
+        //                Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
+        //               //HttpContext.Current.Response.Cookies["value"].Value =
+        //               //     quantity + size + Convert.ToString(price) + Convert.ToString(productPageId) +
+        //               //     Convert.ToString(productPageId);
+        //                if (Cookie != null)
+        //                {
+        //                    Cookie["Quantity"] = quantity;
+        //                    Cookie["Size"] = size;
+        //                    Cookie["Price"] = Convert.ToString(price);
+        //                    Cookie["pageName"] = productPageName;
+        //                    //Cookie["Moms"] = Convert.ToString(moms);
+        //                    //Cookie.Values["pageId"] = Convert.ToString(productPageId);
+        //                    //Cookie.Value = Cookie.Value + "|" + size + "   " + quantity + "   " + price;
+        //                }
+        //}
+        //            if (Cookie != null)
+        //            {
+        //                Cookie.Expires = DateTime.Now.AddDays(4);
+        //                HttpContext.Current.Response.Cookies.Add(Cookie);
+        //            }
+        //        }
+
         //public void GetCookies(int productPageId)
         //{
         //    if (productPageId > 0)

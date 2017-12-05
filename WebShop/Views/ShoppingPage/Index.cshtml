@@ -36,6 +36,14 @@
                     <option value="Medium">Medium</option>
                     <option value="Large">Large</option>
                 </select>
+                
+                @*<br/>
+                <h4>Välj storleken</h4>
+                <select  name="sizes">
+                    <option value="Small">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
+                    <option value="Medium">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
+                    <option value="Large">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
+                </select>*@
 
                 <h4>Välj kvantitet</h4>
                 <select id="dropdown" name="numberOfItems">
@@ -65,36 +73,36 @@
 </div>
 
 <script>
-    var itemCount = 0;
+    //var itemCount = 0;
 
-    $(".add").click(function () {
-        itemCount++;
-        if (itemCount<=10) {
-        $("#itemCount").html(itemCount).css("display", "block");
-            } else {
-            alert("You can not add more than 10 items");
-        }
-    });
+    //$(".add").click(function () {
+    //    itemCount++;
+    //    if (itemCount<=10) {
+    //    $("#itemCount").html(itemCount).css("display", "block");
+    //        } else {
+    //        alert("You can not add more than 10 items");
+    //    }
+    //});
 
-    $(".clear").click(function () {
-        itemCount = 0;
-        $("#itemCount").html("").css("display", "none");
-        $("#cartItems").html("");
-    });
-    $("#myLink").click(function (e) {
+    //$(".clear").click(function () {
+    //    itemCount = 0;
+    //    $("#itemCount").html("").css("display", "none");
+    //    $("#cartItems").html("");
+    //});
+    //$("#myLink").click(function (e) {
 
-        e.preventDefault();
-        $.ajax({
+    //    e.preventDefault();
+    //    $.ajax({
 
-            url: $(this).attr("href"), // comma here instead of semicolon   
-            success: function () {
-                //alert("Value Added");  // or any other indication if you want to show
-            }
-            // form serialize
-            // onsubmit
-        });
+    //        url: $(this).attr("href"), // comma here instead of semicolon   
+    //        success: function () {
+    //            //alert("Value Added");  // or any other indication if you want to show
+    //        }
+    //        // form serialize
+    //        // onsubmit
+    //    });
 
-     });
+    // });
 </script>
 @*<script>
     $.ajax({
