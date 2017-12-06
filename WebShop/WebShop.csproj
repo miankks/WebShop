@@ -384,8 +384,8 @@
     <Content Include="Static\css\bootstrap-theme.css" />
     <Content Include="Static\css\bootstrap-theme.min.css" />
     <Content Include="Static\css\bootstrap.min.css" />
-    <Content Include="Static\css\font-awesome.css" />
-    <Content Include="Static\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

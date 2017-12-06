@@ -16,8 +16,8 @@ namespace WebShop.Controllers
 {
     public class ShoppingCartPageController : PageController<ShoppingCartPage>
     {
-        public double TotalPrice = 0;
-        public double TotalMomsInCart = 0;
+        private double TotalPrice = 0;
+        private double TotalMomsInCart = 0;
         private readonly IContentRepository _contentRepository;
         public ShoppingCartPageController(IContentRepository contentRepository)
         {
@@ -54,9 +54,9 @@ namespace WebShop.Controllers
                 NumberOfItems = numberOfItems,
                 Price = shoppingPage.ProductPriceFor * Convert.ToDouble(numberOfItems),
                 ProductName = productPageName,
-                ImageId = shoppingPage.ProductImage.ID
+                ImageId = shoppingPage.ProductImage.ID,
+                
             };
-
             var currentCart = cookieHelper.GetCartFromCookie();
 
             currentCart.CartItems.Add(newCartItem);
@@ -108,37 +108,32 @@ namespace WebShop.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                    var message = new MailMessage();
-                    message.To.Add(new MailAddress(email));
-                    message.From = new MailAddress("bilal@bilal.com");
-                    message.Subject = "Köp klart";
-                    body += "Hello, " + userName + ",";
-                    body += "Product Name: " + Environment.NewLine;
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.From = new MailAddress("customercare@butik.com");
+                    mailMessage.To.Add(email);
+                    mailMessage.Subject = "Kop klart";
+                    mailMessage.Body = "Hello " + userName +"," + Environment.NewLine + Environment.NewLine;
+                    
                     foreach (var item in currentCart.CartItems)
                     {
-                        body += "Produkt namn:  " + item.ProductName+ Environment.NewLine;
-                        body += "Antal beställt:  " + item.NumberOfItems+ Environment.NewLine;
-                        body += "Storlek:  " + item.Size + Environment.NewLine;
-                        body += "pris:  " + item.Price+ Environment.NewLine;
-                        body += Environment.NewLine;
+                        mailMessage.Body += Environment.NewLine+ "Produkt namn:  " + item.ProductName + Environment.NewLine;
+                        mailMessage.Body += "Antal bestallt:  " + item.NumberOfItems + Environment.NewLine;
+                        mailMessage.Body += "Storlek:  " + item.Size + Environment.NewLine;
+                        mailMessage.Body += "pris:  " + item.Price + Environment.NewLine;
+                        mailMessage.Body += Environment.NewLine;
                     }
                     foreach (var item in currentCart.CartItems)
                     {
                         TotalPrice += item.Price;
                         TotalMomsInCart += item.TotalMoms;
                     }
-                    body +="Total pris:  " + TotalPrice + Environment.NewLine;
-                    body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
-                 
-                    message.Body = string.Format(body, userName, email, message);
-
-                    message.IsBodyHtml = false;
-
-
+                    mailMessage.Body += "Total pris:  " + TotalPrice + Environment.NewLine;
+                    mailMessage.Body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
+                    mailMessage.Body += "Din adress:  " + adress;
+                    mailMessage.IsBodyHtml = false;
                     using (var smtp = new SmtpClient())
                     {
-                        smtp.Send(message);
+                        smtp.Send(mailMessage);
                         //    var c = new HttpCookie("ShoppingCart")
                         //    {
                         //        Expires = DateTime.Now.AddDays(-1)
@@ -161,6 +156,32 @@ namespace WebShop.Controllers
     }
 }
 
+                    //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+                    //var message = new MailMessage();
+                    //message.To.Add(new MailAddress(email));
+                    //message.From = new MailAddress("bilal@bilal.com");
+                    //message.Subject = "Köp klart";
+                    //body += "Hello, " + userName + "," + Environment.NewLine;
+                    //body +=Environment.NewLine;
+                    //foreach (var item in currentCart.CartItems)
+                    //{
+                    //    body += "Produkt namn:  " + item.ProductName+ Environment.NewLine;
+                    //    body += "Antal beställt:  " + item.NumberOfItems+ Environment.NewLine;
+                    //    body += "Storlek:  " + item.Size + Environment.NewLine;
+                    //    body += "pris:  " + item.Price+ Environment.NewLine;
+                    //    body += Environment.NewLine;
+                    //}
+                    //foreach (var item in currentCart.CartItems)
+                    //{
+                    //    TotalPrice += item.Price;
+                    //    TotalMomsInCart += item.TotalMoms;
+                    //}
+                    //body +="Total pris:  " + TotalPrice + Environment.NewLine;
+                    //body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
+
+                    //message.Body = string.Format(body, userName, email, message);
+
+                    //message.IsBodyHtml = true;
 
 
 

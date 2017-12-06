@@ -21,8 +21,8 @@ namespace WebShop.Business
             if (HttpContext.Current.Request.Cookies["ShoppingCart"] != null)
             {
                 Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
-
-                if (Cookie != null && !string.IsNullOrWhiteSpace(Cookie.Value))
+                    //if (Cookie != null && !string.IsNullOrWhiteSpace(Cookie.Value))
+                if (!string.IsNullOrWhiteSpace(Cookie?.Value))
                 {
                     CookieCart deserializedCookieCart = JsonConvert.DeserializeObject<CookieCart>(Cookie.Value);
                     return deserializedCookieCart;
