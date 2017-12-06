@@ -1,5 +1,7 @@
 ﻿
-@model CookieCart
+@*@model CookieCart*@
+@model ShoppingCartViewModel
+
 
 
 
@@ -26,7 +28,7 @@
         </div>
     </div>
     <div class="row">
-        @foreach (var item in Model.CartItems)
+        @foreach (var item in Model.CurrentCart.CartItems)
         {
             <div class="span1">
                 <h4 style="color: chocolate">@item.ProductName</h4>

@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Web.Mvc;
 using WebShop.Models.Pages;
-using WebShop.Models.ViewModels;
 using WebShop.Business;
 using System.Net.Mail;
-using EPiServer.ServiceLocation;
-using EPiServer.Web.Routing;
-using Newtonsoft.Json;
+using WebShop.Models.ViewModels;
+using static Newtonsoft.Json.JsonConvert;
 
 namespace WebShop.Controllers
 {
     public class ShoppingCartPageController : PageController<ShoppingCartPage>
     {
+        public double TotalPrice = 0;
+        public double TotalMomsInCart = 0;
         private readonly IContentRepository _contentRepository;
         public ShoppingCartPageController(IContentRepository contentRepository)
         {
@@ -26,31 +26,29 @@ namespace WebShop.Controllers
 
         public ActionResult Index(ShoppingCartPage currentPage)
         {
-
-            var cart = new CookieCart(currentPage)
+            var cookieHelper = new CookieHelper();
+            var cart = cookieHelper.GetCartFromCookie();
+            var model = new ShoppingCartViewModel(currentPage);
+            foreach (var item in cart.CartItems)
             {
-                CartItems = new List<CookieCart.CartCookieItem>()
-            };
-
-            HttpCookie cookies = Request.Cookies["ShoppingCart"];
-            if (cookies != null)
-            {
-                CookieCart.CartCookieItem deserialize = JsonConvert.DeserializeObject<CookieCart.CartCookieItem>(cookies.Value);
-                cart.CartItems.Add(deserialize);
+                TotalPrice += item.Price;
+                TotalMomsInCart += item.TotalMoms;
             }
-            else
-            {
-                TempData["TomVarukorg"] = "Varukorg är tom";
-            }
-            return View(cart);
+            TempData["TotalPrice"] = TotalPrice;
+            TempData["TotalMomsInCart"] = TotalMomsInCart;
+            model.CurrentCart = cart;
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult Index(ShoppingCartPage currentPage, string sizes, string numberOfItems, int productPageId, string productPageName)
         {
+            var cookieHelper = new CookieHelper();
             var reference = new ContentReference(productPageId);
             var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
-            var currentCookieCart = new CookieCart.CartCookieItem
+
+            var newCartItem = new CookieCart.CartCookieItem
             {
                 Size = sizes,
                 NumberOfItems = numberOfItems,
@@ -58,11 +56,12 @@ namespace WebShop.Controllers
                 ProductName = productPageName,
                 ImageId = shoppingPage.ProductImage.ID
             };
-            string output = JsonConvert.SerializeObject(currentCookieCart, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore, Formatting = Formatting.Indented });
-            //string output = JsonConvert.SerializeObject(currentCookieCart);
-            var cookie = new CookieHelper();
-            cookie.GetCookies(output);
 
+            var currentCart = cookieHelper.GetCartFromCookie();
+
+            currentCart.CartItems.Add(newCartItem);
+
+            cookieHelper.SaveCartToCookie(currentCart);
 
             return RedirectToAction("Index");
         }
@@ -70,12 +69,7 @@ namespace WebShop.Controllers
 
         public ActionResult DeleteCookies()
         {
-            //var urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
-            //var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-            //var resultPage = contentLoader.Get<StartPage>(ContentReference.StartPage);
-            //var pageUrl = urlResolver.GetVirtualPath(resultPage.ContentLink);
-            ////var reference = new ContentReference(resultPage);
-            ////var shoppingPage = this._contentRepository.Get<StartPage>(reference);
+           
             if (Request.Cookies["ShoppingCart"] != null)
             {
                 var c = new HttpCookie("ShoppingCart")
@@ -86,8 +80,7 @@ namespace WebShop.Controllers
             }
 
             return RedirectToAction("Index");
-            //return RedirectToAction("Index", "StartPage", pageUrl);
-            //return  RedirectToRoute(pageUrl, resultPage);
+            
         }
 
         public ActionResult Delete()
@@ -103,19 +96,16 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost]
-        public ActionResult FinishShopping(ShoppingCartPage currentPage, string userName, string email, string adress, int productPageId)
-        {
-            HttpCookie cookies = Request.Cookies["ShoppingCart"];
-            var cart = new CookieCart(currentPage)
-            {
-                CartItems = new List<CookieCart.CartCookieItem>()
-            };
-            if (cookies != null)
-            {
-                CookieCart.CartCookieItem deserialize = JsonConvert.DeserializeObject<CookieCart.CartCookieItem>(cookies.Value);
-                cart.CartItems.Add(deserialize);
 
+        [HttpPost]
+        public ActionResult FinishShopping(ShoppingCartPage currentPage, string userName, string email, string adress, int? productPageId)
+        {
+            var cookieHelper = new CookieHelper();
+
+            var currentCart = cookieHelper.GetCartFromCookie();
+
+            if (currentCart != null)
+            {
                 if (ModelState.IsValid)
                 {
                     var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
@@ -124,23 +114,27 @@ namespace WebShop.Controllers
                     message.From = new MailAddress("bilal@bilal.com");
                     message.Subject = "Köp klart";
                     body += "Hello, " + userName + ",";
-                    body += "Product Name: ";
-                    body += deserialize.ProductName;
-                    body += Environment.NewLine;
-                    body += ",  Size: ";
-                    body += deserialize.Size;
-                    body += Environment.NewLine;
-
-                    body += ",  Quantity: ";
-                    body += deserialize.NumberOfItems;
-                    body += Environment.NewLine;
-
-                    body += ",  Price: ";
-                    body += deserialize.Price;
+                    body += "Product Name: " + Environment.NewLine;
+                    foreach (var item in currentCart.CartItems)
+                    {
+                        body += "Produkt namn:  " + item.ProductName+ Environment.NewLine;
+                        body += "Antal beställt:  " + item.NumberOfItems+ Environment.NewLine;
+                        body += "Storlek:  " + item.Size + Environment.NewLine;
+                        body += "pris:  " + item.Price+ Environment.NewLine;
+                        body += Environment.NewLine;
+                    }
+                    foreach (var item in currentCart.CartItems)
+                    {
+                        TotalPrice += item.Price;
+                        TotalMomsInCart += item.TotalMoms;
+                    }
+                    body +="Total pris:  " + TotalPrice + Environment.NewLine;
+                    body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
+                 
                     message.Body = string.Format(body, userName, email, message);
 
+                    message.IsBodyHtml = false;
 
-                    message.IsBodyHtml = true;
 
                     using (var smtp = new SmtpClient())
                     {
@@ -154,7 +148,10 @@ namespace WebShop.Controllers
                     }
                 }
             }
-            return View(cart);
+            var model = new ShoppingCartViewModel(currentPage);
+
+            model.CurrentCart = currentCart;
+            return View(model);
         }
 
         public ActionResult ToShoppingPage()
@@ -164,6 +161,28 @@ namespace WebShop.Controllers
     }
 }
 
+
+
+
+
+        //public ActionResult UpdateForm(ShoppingCartPage currentPage, string items)
+        //{
+        //    var cookieHelper = new CookieHelper();
+
+        //    var currentCart = cookieHelper.GetCartFromCookie();
+
+        //    currentCart.CartItems.Add(newCartItem);
+
+        //    cookieHelper.SaveCartToCookie(currentCart);
+        //    return RedirectToAction("Index");
+        //}
+
+
+
+#region cart deserialize
+//CookieCart.CartCookieItem deserialize = DeserializeObject<CookieCart.CartCookieItem>(cookies.Value);
+// cart.CartItems.Add(deserialize);
+#endregion
 #region Commented code
 //var cart = new ShoppingCartPage();
 //var shoppingCartPages = _contentRepository.GetChildren<ShoppingCartPage>(currentPage.ContentLink).ToList();
@@ -177,7 +196,6 @@ namespace WebShop.Controllers
 //var reference = new ContentReference(_id);
 //var shoppingPage = this._contentRepository.Get<ShoppingPage>(reference);
 #endregion
-
 #region Sending email
 
 

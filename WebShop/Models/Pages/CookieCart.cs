@@ -6,13 +6,15 @@ using WebShop.Models.ViewModels;
 
 namespace WebShop.Models.Pages
 {
-    public class CookieCart : PageViewModel<SitePageData>
+    public class CookieCart
     {
-    public CookieCart(SitePageData currentPage) : base(currentPage)
-    {
-        this.CartItems = new List<CartCookieItem>();
-    }
-    public List<CartCookieItem> CartItems { get; set; }
+        public CookieCart()
+        {
+            this.CartItems = new List<CartCookieItem>();
+        }
+
+        public List<CartCookieItem> CartItems { get; set; }
+
         public class CartCookieItem
         {
             public string Size { get; set; }
@@ -20,8 +22,7 @@ namespace WebShop.Models.Pages
             public double Price { get; set; }
             public string ProductName { get; set; }
             public int ImageId { get; set; }
-
-
+            public double TotalAmount { get; set; }
             public double TotalMoms
             {
                 get { return Price * .25; }

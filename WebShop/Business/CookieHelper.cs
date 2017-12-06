@@ -5,6 +5,7 @@ using System.Web;
 using EPiServer;
 using EPiServer.Core;
 using Microsoft.Ajax.Utilities;
+using Newtonsoft.Json;
 using SendGrid;
 using WebShop.Models.Pages;
 
@@ -12,41 +13,94 @@ namespace WebShop.Business
 {
     public class CookieHelper
     {
-        private readonly IContentRepository _contentRepository;
-
-        public CookieHelper()
-        {
-        }
-        public CookieHelper(IContentRepository contentRepository)
-        {
-            this._contentRepository = contentRepository;
-        }
-
+       
         public HttpCookie Cookie;
-        public void GetCookies(string output)
-        {
-            if (HttpContext.Current.Request["ShoppingCart"] == null)
-            {
 
+        public CookieCart GetCartFromCookie()
+        {
+            if (HttpContext.Current.Request.Cookies["ShoppingCart"] != null)
+            {
+                Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
+
+                if (Cookie != null && !string.IsNullOrWhiteSpace(Cookie.Value))
+                {
+                    CookieCart deserializedCookieCart = JsonConvert.DeserializeObject<CookieCart>(Cookie.Value);
+                    return deserializedCookieCart;
+                }
+            }
+
+            return new CookieCart();
+        }
+
+        public void SaveCartToCookie(CookieCart cart)
+        {
+            string cartAsJsonString = JsonConvert.SerializeObject(cart);
+
+            if (HttpContext.Current.Request.Cookies["ShoppingCart"] == null)
+            {
                 Cookie = new HttpCookie("ShoppingCart")
                 {
-                    Value = output
+                    Value = cartAsJsonString
                 };
             }
             else
             {
                 Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
+
                 if (Cookie != null)
                 {
-                    Cookie.Value =  output;
+                    Cookie.Value = cartAsJsonString;
                 }
             }
+
             if (Cookie != null)
             {
                 Cookie.Expires = DateTime.Now.AddDays(4);
                 HttpContext.Current.Response.Cookies.Add(Cookie);
             }
         }
+    }
+}
+
+
+                //Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
+                //    Cookie = new HttpCookie("ShoppingCart");
+                //    var products = Cookie.Value.Split(',').ToList();
+                //    products.Add(output);
+                //    Cookie.Value = String.Join(",", products.ToArray());
+
+
+
+
+
+
+
+
+
+
+
+            //if (HttpContext.Current.Request["ShoppingCart"] == null)
+            //{
+            //if (!string.IsNullOrWhiteSpace(Cookie.Value))
+            //{
+            //    Cookie = new HttpCookie("ShoppingCart");
+            //    var products = Cookie.Value.Split(',').ToList();
+            //    products.Add(output);
+
+            //    Cookie.Value = String.Join(",", products.ToArray());
+            //}
+            //else
+            //{
+            //    Cookie.Value = output;
+            //}
+            ////}
+
+            //if (Cookie != null)
+            //{
+            //    Cookie.Expires = DateTime.Now.AddDays(4);
+            //    HttpContext.Current.Response.Cookies.Add(Cookie);
+            //}
+
 
         //public void Cookies_Set(string key, string value)
         //{
@@ -67,9 +121,10 @@ namespace WebShop.Business
 
         //    return value;
         //}
-    }
-}
-       
+  
+
+
+
         //public void AddSelectedProducts(HttpContextBase context, int productPage, string productId)
         //{
         //    var cookie = this.GetProductOrderCookie(context, productPage);
