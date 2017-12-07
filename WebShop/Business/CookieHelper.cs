@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
-using EPiServer;
-using EPiServer.Core;
-using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
-using SendGrid;
 using WebShop.Models.Pages;
 
 namespace WebShop.Business
@@ -25,6 +19,7 @@ namespace WebShop.Business
                 if (!string.IsNullOrWhiteSpace(Cookie?.Value))
                 {
                     CookieCart deserializedCookieCart = JsonConvert.DeserializeObject<CookieCart>(Cookie.Value);
+                    
                     return deserializedCookieCart;
                 }
             }

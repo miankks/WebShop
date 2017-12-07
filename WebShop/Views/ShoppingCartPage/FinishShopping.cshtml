@@ -8,45 +8,49 @@
 <div>
     Efter köp
 </div>
-<div class="container container-fluid">
-    <div class="row">
-        <div class="span1">
-            <h4>Namn</h4>
-        </div>
-        <div class="span1">
-            <h4>Email</h4>
-        </div><div class="span1">
-            <h4>Adress</h4>
-        </div><div class="span1">
-            <h4>Storlek</h4>
-        </div>
-        <div class="span1">
-            <h4>Antal</h4>
-        </div>
-        <div class="span1">
-            <h4>Pris</h4>
-        </div>
-    </div>
-    <div class="row">
+@if (Model.CurrentCart.CartItems.Count > 0)
+{
+       
+    <table class="table table-hover table-striped sortable ui-sortable">
+        <thead>
+        <tr>
+            <th>Produkt Namn</th>
+            <th>Storlek</th>
+            <th>Antal</th>
+            <th>Pris</th>
+            <th>Moms</th>
+        </tr>
+        </thead>
         @foreach (var item in Model.CurrentCart.CartItems)
         {
-            <div class="span1">
-                <h4 style="color: chocolate">@item.ProductName</h4>
-            </div>
-            <div class="span1">
-                <h4 style="color: chocolate">@item.Price</h4>
-            </div>
-            <div class="span1">
-                <h4 style="color: chocolate">@item.NumberOfItems</h4>
-            </div>
-            <div class="span1">
-                <h4 style="color: chocolate">@item.ProductName</h4>
-            </div>
+            <tbody>
+            <tr>
+                <td style="color: chocolate">@item.ProductName</td>
+                <td style="color: chocolate">@item.Size</td>
+                <td style="color: chocolate"> @item.NumberOfItems</td>
+                @*<td style="color: chocolate"><input type="text" value="@item.NumberOfItems" name="items"/> </td>*@
+                <td style="color: chocolate">@item.Price</td>
+                <td style="color: chocolate">@item.TotalMoms</td>
+            </tr>
+            </tbody>
         }
+    </table>
+        
+    <div class="jumbotron">
+        Total pris:<h4>@TempData["TotalPrice"]</h4> 
+        Total moms: <h4>@TempData["TotalMomsInCart"]</h4> 
     </div>
-</div>
+    
+}
+else
+{
+    <div class="span4">
+        <h3>Din varukorg är tom</h3>
+        <br />
+        <h4>   @Html.ActionLink("Fortsät att handla", "ToShoppingPage", "ShoppingCartPage") </h4>
+    </div>
+}
 
-Tack för din köp
-Välkommen åter
+<h4>Tack för din köp Välkommen åter</h4> 
 <br />
 @Html.ActionLink("Gå tillbaka", "DeleteCookies", "ShoppingCartPage")

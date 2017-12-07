@@ -12,62 +12,62 @@ namespace WebShop.Models.Pages
     public class ShoppingCartPage : SitePageData
     {
       
-        [Display(
-            Name = "Cart Id",
-            Description = "Cart Id",
-            GroupName = SystemTabNames.Content,
-            Order = 10)]
-        public virtual string CartId
-        {
-            get
-            {
-                string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-                char[] stringChars = new char[7];
-                Random random = new Random();
+    //    [Display(
+    //        Name = "Cart Id",
+    //        Description = "Cart Id",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 10)]
+    //    public virtual string CartId
+    //    {
+    //        get
+    //        {
+    //            string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    //            char[] stringChars = new char[7];
+    //            Random random = new Random();
 
-                for (int i = 0; i < stringChars.Length; i++)
-                {
-                    stringChars[i] = chars[random.Next(chars.Length)];
-                }
-                string finalString = new String(stringChars);
-                return finalString;
-            }
+    //            for (int i = 0; i < stringChars.Length; i++)
+    //            {
+    //                stringChars[i] = chars[random.Next(chars.Length)];
+    //            }
+    //            string finalString = new String(stringChars);
+    //            return finalString;
+    //        }
             
-        }
+    //    }
 
-        [Display(
-            Name = "Cart total price",
-            GroupName = SystemTabNames.Content,
-            Order = 20)]
-        public virtual double TotalCartPrice { get; set; }
+    //    [Display(
+    //        Name = "Cart total price",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 20)]
+    //    public virtual double TotalCartPrice { get; set; }
 
-        [Display(
-            Name = "Cart item sizes",
-            GroupName = SystemTabNames.Content,
-            Order = 30)]
-        public virtual string Size { get; set; }
+    //    [Display(
+    //        Name = "Cart item sizes",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 30)]
+    //    public virtual string Size { get; set; }
 
-        [Display(
-            Name = "Cart Moms",
-            GroupName = SystemTabNames.Content,
-            Order = 40)]
-        public virtual double CartMoms
-        {
-            get => TotalCartPrice * 0.25;
-            set { }
-        }
+    //    [Display(
+    //        Name = "Cart Moms",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 40)]
+    //    public virtual double CartMoms
+    //    {
+    //        get => TotalCartPrice * 0.25;
+    //        set { }
+    //    }
 
-        [Display(
-            Name = "Cart total items",
-            GroupName = SystemTabNames.Content,
-            Order = 30)]
-        public virtual string NumberOfItems { get; set; }
+    //    [Display(
+    //        Name = "Cart total items",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 30)]
+    //    public virtual double NumberOfItems { get; set; }
 
-        [Display(
-            Name = "Cart content area",
-            GroupName = SystemTabNames.Content,
-            Order = 50)]
-        [CultureSpecific]
-        public virtual ContentArea CartContentArea { get; set; }
+    //    [Display(
+    //        Name = "Cart content area",
+    //        GroupName = SystemTabNames.Content,
+    //        Order = 50)]
+    //    [CultureSpecific]
+    //    public virtual ContentArea CartContentArea { get; set; }
     }
 }

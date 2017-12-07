@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Mvc;
@@ -16,8 +17,8 @@ namespace WebShop.Controllers
 {
     public class ShoppingCartPageController : PageController<ShoppingCartPage>
     {
-        private double TotalPrice = 0;
-        private double TotalMomsInCart = 0;
+        private double _totalPrice = 0;
+        private double _totalMomsInCart = 0;
         private readonly IContentRepository _contentRepository;
         public ShoppingCartPageController(IContentRepository contentRepository)
         {
@@ -31,11 +32,11 @@ namespace WebShop.Controllers
             var model = new ShoppingCartViewModel(currentPage);
             foreach (var item in cart.CartItems)
             {
-                TotalPrice += item.Price;
-                TotalMomsInCart += item.TotalMoms;
+                _totalPrice += item.Price;
+                _totalMomsInCart += item.TotalMoms;
             }
-            TempData["TotalPrice"] = TotalPrice;
-            TempData["TotalMomsInCart"] = TotalMomsInCart;
+            TempData["TotalPrice"] = _totalPrice;
+            TempData["TotalMomsInCart"] = _totalMomsInCart;
             model.CurrentCart = cart;
 
             return View(model);
@@ -59,6 +60,26 @@ namespace WebShop.Controllers
             };
             var currentCart = cookieHelper.GetCartFromCookie();
 
+            //var pageImageId = from page in currentCart.CartItems
+            //                  where page.ImageId == newCartItem.ImageId
+            //                  select page.ImageId;
+            //if (newCartItem.ImageId == pageImageId)
+            //{
+                
+            //}
+            //foreach (var item in currentCart.CartItems)
+            //{
+            //    if (newCartItem.ImageId == item.ImageId && newCartItem.Size == item.Size)
+            //    {
+            //        //newCartItem.NumberOfItems += item.NumberOfItems;
+            //       item.NumberOfItems  = item.NumberOfItems + newCartItem.NumberOfItems;
+
+            //    }
+            //    else
+            //    {
+            //        Console.Write("do nothing");
+            //    }
+            //}
             currentCart.CartItems.Add(newCartItem);
 
             cookieHelper.SaveCartToCookie(currentCart);
@@ -70,6 +91,7 @@ namespace WebShop.Controllers
         public ActionResult DeleteCookies()
         {
            
+
             if (Request.Cookies["ShoppingCart"] != null)
             {
                 var c = new HttpCookie("ShoppingCart")
@@ -79,7 +101,7 @@ namespace WebShop.Controllers
                 Response.Cookies.Add(c);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("ToShoppingPage");
             
         }
 
@@ -96,55 +118,34 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult DeleteACookie(int product)
+        {
+            //var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
+            //var allPages = allReferences.Select(x => this._contentRepository.Get<ShoppingPage>(x)).ToList();
+            //var selectedBySomething = allPages.Where(x =>x.PageImage.ID > product);
 
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public ActionResult FinishShopping(ShoppingCartPage currentPage, string userName, string email, string adress, int? productPageId)
         {
+            var sendEmail = new EmailConfirmation();
+            
             var cookieHelper = new CookieHelper();
-
             var currentCart = cookieHelper.GetCartFromCookie();
-
             if (currentCart != null)
             {
-                if (ModelState.IsValid)
+                sendEmail.EmailSend(currentCart, userName, email, adress);
+                foreach (var item in currentCart.CartItems)
                 {
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.From = new MailAddress("customercare@butik.com");
-                    mailMessage.To.Add(email);
-                    mailMessage.Subject = "Kop klart";
-                    mailMessage.Body = "Hello " + userName +"," + Environment.NewLine + Environment.NewLine;
-                    
-                    foreach (var item in currentCart.CartItems)
-                    {
-                        mailMessage.Body += Environment.NewLine+ "Produkt namn:  " + item.ProductName + Environment.NewLine;
-                        mailMessage.Body += "Antal bestallt:  " + item.NumberOfItems + Environment.NewLine;
-                        mailMessage.Body += "Storlek:  " + item.Size + Environment.NewLine;
-                        mailMessage.Body += "pris:  " + item.Price + Environment.NewLine;
-                        mailMessage.Body += Environment.NewLine;
-                    }
-                    foreach (var item in currentCart.CartItems)
-                    {
-                        TotalPrice += item.Price;
-                        TotalMomsInCart += item.TotalMoms;
-                    }
-                    mailMessage.Body += "Total pris:  " + TotalPrice + Environment.NewLine;
-                    mailMessage.Body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
-                    mailMessage.Body += "Din adress:  " + adress;
-                    mailMessage.IsBodyHtml = false;
-                    using (var smtp = new SmtpClient())
-                    {
-                        smtp.Send(mailMessage);
-                        //    var c = new HttpCookie("ShoppingCart")
-                        //    {
-                        //        Expires = DateTime.Now.AddDays(-1)
-                        //    };
-                        //    Response.Cookies.Add(c);
-                        return RedirectToAction("Index");
-                    }
+                    _totalPrice += item.Price;
+                    _totalMomsInCart += item.TotalMoms;
                 }
+                TempData["TotalPrice"] = _totalPrice;
+                TempData["TotalMomsInCart"] = _totalMomsInCart;
             }
             var model = new ShoppingCartViewModel(currentPage);
-
+           
             model.CurrentCart = currentCart;
             return View(model);
         }
@@ -156,50 +157,47 @@ namespace WebShop.Controllers
     }
 }
 
-                    //var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
-                    //var message = new MailMessage();
-                    //message.To.Add(new MailAddress(email));
-                    //message.From = new MailAddress("bilal@bilal.com");
-                    //message.Subject = "Köp klart";
-                    //body += "Hello, " + userName + "," + Environment.NewLine;
-                    //body +=Environment.NewLine;
-                    //foreach (var item in currentCart.CartItems)
-                    //{
-                    //    body += "Produkt namn:  " + item.ProductName+ Environment.NewLine;
-                    //    body += "Antal beställt:  " + item.NumberOfItems+ Environment.NewLine;
-                    //    body += "Storlek:  " + item.Size + Environment.NewLine;
-                    //    body += "pris:  " + item.Price+ Environment.NewLine;
-                    //    body += Environment.NewLine;
-                    //}
-                    //foreach (var item in currentCart.CartItems)
-                    //{
-                    //    TotalPrice += item.Price;
-                    //    TotalMomsInCart += item.TotalMoms;
-                    //}
-                    //body +="Total pris:  " + TotalPrice + Environment.NewLine;
-                    //body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
+//var body = "<p>Email From: {0} ({1})</p><p>Message:</p><p>{2}</p>";
+//var message = new MailMessage();
+//message.To.Add(new MailAddress(email));
+//message.From = new MailAddress("bilal@bilal.com");
+//message.Subject = "Köp klart";
+//body += "Hello, " + userName + "," + Environment.NewLine;
+//body +=Environment.NewLine;
+//foreach (var item in currentCart.CartItems)
+//{
+//    body += "Produkt namn:  " + item.ProductName+ Environment.NewLine;
+//    body += "Antal beställt:  " + item.NumberOfItems+ Environment.NewLine;
+//    body += "Storlek:  " + item.Size + Environment.NewLine;
+//    body += "pris:  " + item.Price+ Environment.NewLine;
+//    body += Environment.NewLine;
+//}
+//foreach (var item in currentCart.CartItems)
+//{
+//    TotalPrice += item.Price;
+//    TotalMomsInCart += item.TotalMoms;
+//}
+//body +="Total pris:  " + TotalPrice + Environment.NewLine;
+//body += "Total moms:  " + TotalMomsInCart + Environment.NewLine;
 
-                    //message.Body = string.Format(body, userName, email, message);
+//message.Body = string.Format(body, userName, email, message);
 
-                    //message.IsBodyHtml = true;
-
-
-
-
-        //public ActionResult UpdateForm(ShoppingCartPage currentPage, string items)
-        //{
-        //    var cookieHelper = new CookieHelper();
-
-        //    var currentCart = cookieHelper.GetCartFromCookie();
-
-        //    currentCart.CartItems.Add(newCartItem);
-
-        //    cookieHelper.SaveCartToCookie(currentCart);
-        //    return RedirectToAction("Index");
-        //}
+//message.IsBodyHtml = true;
 
 
 
+
+//public ActionResult UpdateForm(ShoppingCartPage currentPage, string items)
+//{
+//    var cookieHelper = new CookieHelper();
+
+//    var currentCart = cookieHelper.GetCartFromCookie();
+
+//    currentCart.CartItems.Add(newCartItem);
+
+//    cookieHelper.SaveCartToCookie(currentCart);
+//    return RedirectToAction("Index");
+//}
 #region cart deserialize
 //CookieCart.CartCookieItem deserialize = DeserializeObject<CookieCart.CartCookieItem>(cookies.Value);
 // cart.CartItems.Add(deserialize);
@@ -388,3 +386,44 @@ namespace WebShop.Controllers
 //vm.ProductIdsInCookie.Add(deserialize.NumberOfItems);
 //vm.ProductIdsInCookie.Add(Convert.ToString(deserialize.Price));
 //vm.ProductIdsInCookie.Add(Convert.ToString(deserialize.Moms));
+#region email configuration in controller
+//if (currentCart != null)
+//{
+//    if (ModelState.IsValid)
+//    {
+//        MailMessage mailMessage = new MailMessage();
+//        mailMessage.From = new MailAddress("customercare@butik.com");
+//        mailMessage.To.Add(email);
+//        mailMessage.Subject = "Kop klart";
+//        mailMessage.Body = "Hello " + userName +"," + Environment.NewLine + Environment.NewLine;
+
+//        foreach (var item in currentCart.CartItems)
+//        {
+//            mailMessage.Body += Environment.NewLine+ "Produkt namn:  " + item.ProductName + Environment.NewLine;
+//            mailMessage.Body += "Antal bestallt:  " + item.NumberOfItems + Environment.NewLine;
+//            mailMessage.Body += "Storlek:  " + item.Size + Environment.NewLine;
+//            mailMessage.Body += "pris:  " + item.Price + Environment.NewLine;
+//            mailMessage.Body += Environment.NewLine;
+//        }
+//        foreach (var item in currentCart.CartItems)
+//        {
+//            _totalPrice += item.Price;
+//            _totalMomsInCart += item.TotalMoms;
+//        }
+//        mailMessage.Body += "Total pris:  " + _totalPrice + Environment.NewLine;
+//        mailMessage.Body += "Total moms:  " + _totalMomsInCart + Environment.NewLine;
+//        mailMessage.Body += "Din adress:  " + adress;
+//        mailMessage.IsBodyHtml = false;
+//        using (var smtp = new SmtpClient())
+//        {
+//            smtp.Send(mailMessage);
+//            var c = new HttpCookie("ShoppingCart")
+//            {
+//                Expires = DateTime.Now.AddDays(-1)
+//            };
+//            Response.Cookies.Add(c);
+//            return RedirectToAction("Index");
+//        }
+//    }
+//}
+#endregion

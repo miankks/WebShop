@@ -290,6 +290,7 @@
     <Compile Include="Business\EditorDescriptors\ContactPageSelectionFactory.cs" />
     <Compile Include="Business\EditorDescriptors\ContactPageSelector.cs" />
     <Compile Include="Business\EditorDescriptors\StringListEditorDescriptor.cs" />
+    <Compile Include="Business\EmailConfirmation.cs" />
     <Compile Include="Business\EmailService.cs" />
     <Compile Include="Business\IModifyLayout.cs" />
     <Compile Include="Business\Initialization\BundleConfig.cs" />
