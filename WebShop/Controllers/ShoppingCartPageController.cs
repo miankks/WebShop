@@ -60,19 +60,30 @@ namespace WebShop.Controllers
             };
             var currentCart = cookieHelper.GetCartFromCookie();
 
+
             //var pageImageId = from page in currentCart.CartItems
-            //                  where page.ImageId == newCartItem.ImageId
+            //                  where page.ImageId == newCartItem.ImageId && page.Size == newCartItem.Size
             //                  select page.ImageId;
-            //if (newCartItem.ImageId == pageImageId)
+            ////var dog = currentCart.Where(d => d.Id == pageImageId).FirstOrDefault();
+            //if (pageImageId != null)
             //{
                 
             //}
+            var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
+            var allPages = allReferences.Select(x => this._contentRepository.Get<CookieCart.CartCookieItem>(x)).ToList();
+
+            var selectedBySomething = allPages.Where(x => x.ImageId == newCartItem.ImageId);
+            if (selectedBySomething!=null)
+            {
+            //cookieHelper.UpdateSelectedCookie(currentCart,Convert.ToInt32());
+            }
             //foreach (var item in currentCart.CartItems)
             //{
             //    if (newCartItem.ImageId == item.ImageId && newCartItem.Size == item.Size)
             //    {
             //        //newCartItem.NumberOfItems += item.NumberOfItems;
-            //       item.NumberOfItems  = item.NumberOfItems + newCartItem.NumberOfItems;
+            //        item.NumberOfItems = item.NumberOfItems + newCartItem.NumberOfItems;
+            //        cookieHelper.UpdateSelectedCookie(currentCart);
 
             //    }
             //    else
@@ -118,12 +129,12 @@ namespace WebShop.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult DeleteACookie(int product)
+        public ActionResult DeleteACookie(int? product)
         {
-            //var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
-            //var allPages = allReferences.Select(x => this._contentRepository.Get<ShoppingPage>(x)).ToList();
-            //var selectedBySomething = allPages.Where(x =>x.PageImage.ID > product);
 
+            var reference = new ContentReference(product?.ToString());
+            //var shoppingPage = this._contentRepository.Get<CookieCart.CartCookieItem>(reference);
+            
             return RedirectToAction("Index");
         }
         [HttpPost]

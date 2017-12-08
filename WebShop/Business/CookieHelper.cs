@@ -52,98 +52,13 @@ namespace WebShop.Business
             {
                 Cookie.Expires = DateTime.Now.AddDays(4);
                 HttpContext.Current.Response.Cookies.Add(Cookie);
+
             }
+        }
+
+        public void UpdateSelectedCookie(CookieCart cart, int pageImageId)
+        {
+            HttpContext.Current.Response.SetCookie(Cookie);
         }
     }
 }
-
-
-                //Cookie = HttpContext.Current.Request.Cookies["ShoppingCart"];
-                //    Cookie = new HttpCookie("ShoppingCart");
-                //    var products = Cookie.Value.Split(',').ToList();
-                //    products.Add(output);
-                //    Cookie.Value = String.Join(",", products.ToArray());
-
-
-
-
-
-
-
-
-
-
-
-            //if (HttpContext.Current.Request["ShoppingCart"] == null)
-            //{
-            //if (!string.IsNullOrWhiteSpace(Cookie.Value))
-            //{
-            //    Cookie = new HttpCookie("ShoppingCart");
-            //    var products = Cookie.Value.Split(',').ToList();
-            //    products.Add(output);
-
-            //    Cookie.Value = String.Join(",", products.ToArray());
-            //}
-            //else
-            //{
-            //    Cookie.Value = output;
-            //}
-            ////}
-
-            //if (Cookie != null)
-            //{
-            //    Cookie.Expires = DateTime.Now.AddDays(4);
-            //    HttpContext.Current.Response.Cookies.Add(Cookie);
-            //}
-
-
-        //public void Cookies_Set(string key, string value)
-        //{
-        //    HttpCookie cookie = new HttpCookie(key, value);
-        //    cookie.Expires = DateTime.Now.AddDays(4);
-
-        //    HttpContext.Current.Response.SetCookie(cookie);
-        //}
-
-
-        //public string Cookies_Get(string key)
-        //{
-        //    string value = "";
-        //    if (HttpContext.Current.Request.Cookies.AllKeys.Contains(key))
-        //    {
-        //        value = HttpContext.Current.Request.Cookies[key]?.Value;
-        //    }
-
-        //    return value;
-        //}
-  
-
-
-
-        //public void AddSelectedProducts(HttpContextBase context, int productPage, string productId)
-        //{
-        //    var cookie = this.GetProductOrderCookie(context, productPage);
-        //    var cookieProducts = cookie.Value;
-
-        //    if (!string.IsNullOrWhiteSpace(cookieProducts))
-        //    {
-        //        var products = cookieProducts.Split(',').ToList();
-        //        if (products != null)
-        //        {
-
-        //            products.Add(productId);
-
-        //        }
-
-        //        cookieProducts = String.Join(",", products.ToArray());
-        //    }
-        //    else
-        //    {
-        //        cookieProducts = productId;
-        //    }
-
-        //    cookie.Value = cookieProducts;
-        //    cookie.Expires = DateTime.UtcNow.AddDays(3);
-
-        //    context.Response.SetCookie(cookie);
-        //}

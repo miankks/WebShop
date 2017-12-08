@@ -47,11 +47,6 @@ namespace WebShop.Business
                     using (var smtp = new SmtpClient())
                     {
                         smtp.Send(mailMessage);
-                        //var c = new HttpCookie("ShoppingCart")
-                        //{
-                        //    Expires = DateTime.Now.AddDays(-1)
-                        //};
-                        //Response.Cookies.Add(c);
                     }
             }
         }

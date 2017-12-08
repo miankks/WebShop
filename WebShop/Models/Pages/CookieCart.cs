@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Core;
 using WebShop.Models.ViewModels;
 
 namespace WebShop.Models.Pages
@@ -14,9 +15,12 @@ namespace WebShop.Models.Pages
         }
 
         public List<CartCookieItem> CartItems { get; set; }
-
-        public class CartCookieItem
+        public string CustomerName { get; set; }
+        public string CustomerEmail { get; set; }
+        public string CustomerAddress { get; set; }
+        public class CartCookieItem : IContentData
         {
+           
             public string Size { get; set; }
             public string NumberOfItems { get; set; }
             public double Price { get; set; }
@@ -28,6 +32,8 @@ namespace WebShop.Models.Pages
                 get { return Price * .25; }
                 set { }
             }
+
+            public PropertyDataCollection Property { get; }
         }
     }
 }
