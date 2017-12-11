@@ -10,21 +10,26 @@ using WebShop.Models.ViewModels;
 using WebShop.Business;
 using System.Web;
 using System;
+using EPiServer.Filters;
 
 namespace WebShop.Controllers
 {
     public class ShoppingCategoryPageController : PageControllerBase<ShoppingCategoryPage>
     {
         private readonly IContentRepository _contentRepository;
-
-        public ShoppingCategoryPageController(IContentRepository contentRepository)
+        private readonly IPublishedStateAssessor _publishedStateAssessor;
+        public ShoppingCategoryPageController(IContentRepository contentRepository, IPublishedStateAssessor publishedStateAssessor)
         {
             this._contentRepository = contentRepository;
+            this._publishedStateAssessor = publishedStateAssessor;
         }
         public ActionResult Index(ShoppingCategoryPage currentPage)
         {
-            var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
-            var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
+            //done by IPublishedStateAssessor
+            //var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).Where(_publishedStateAssessor.IsPublished).ToList(); 
+            var categoryPages = FilterForVisitor.Filter(_contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink)).Cast<ShoppingCategoryPage>().ToList();
+            var shopplinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
+            var shoppingLinks = FilterForVisitor.Filter(shopplinks).Cast<ShoppingPage>().ToList();
 
             var model = new ShoppingCategoryPageViewModel(currentPage)
             {
@@ -33,7 +38,6 @@ namespace WebShop.Controllers
             };
             return View(model);
         }
-
     }
 }
 

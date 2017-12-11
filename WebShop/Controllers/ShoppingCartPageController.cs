@@ -60,37 +60,6 @@ namespace WebShop.Controllers
             };
             var currentCart = cookieHelper.GetCartFromCookie();
 
-
-            //var pageImageId = from page in currentCart.CartItems
-            //                  where page.ImageId == newCartItem.ImageId && page.Size == newCartItem.Size
-            //                  select page.ImageId;
-            ////var dog = currentCart.Where(d => d.Id == pageImageId).FirstOrDefault();
-            //if (pageImageId != null)
-            //{
-                
-            //}
-            var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
-            var allPages = allReferences.Select(x => this._contentRepository.Get<CookieCart.CartCookieItem>(x)).ToList();
-
-            var selectedBySomething = allPages.Where(x => x.ImageId == newCartItem.ImageId);
-            if (selectedBySomething!=null)
-            {
-            //cookieHelper.UpdateSelectedCookie(currentCart,Convert.ToInt32());
-            }
-            //foreach (var item in currentCart.CartItems)
-            //{
-            //    if (newCartItem.ImageId == item.ImageId && newCartItem.Size == item.Size)
-            //    {
-            //        //newCartItem.NumberOfItems += item.NumberOfItems;
-            //        item.NumberOfItems = item.NumberOfItems + newCartItem.NumberOfItems;
-            //        cookieHelper.UpdateSelectedCookie(currentCart);
-
-            //    }
-            //    else
-            //    {
-            //        Console.Write("do nothing");
-            //    }
-            //}
             currentCart.CartItems.Add(newCartItem);
 
             cookieHelper.SaveCartToCookie(currentCart);
@@ -132,7 +101,7 @@ namespace WebShop.Controllers
         public ActionResult DeleteACookie(int? product)
         {
 
-            var reference = new ContentReference(product?.ToString());
+            //var reference = new ContentReference(product?.ToString());
             //var shoppingPage = this._contentRepository.Get<CookieCart.CartCookieItem>(reference);
             
             return RedirectToAction("Index");
@@ -435,6 +404,39 @@ namespace WebShop.Controllers
 //            Response.Cookies.Add(c);
 //            return RedirectToAction("Index");
 //        }
+//    }
+//}
+#endregion
+
+#region Add same product to same list
+//var pageId = from page in currentCart.CartItems
+//                  where page.pageId == newCartItem.pageId && page.Size == newCartItem.Size
+//                  select page.pageId;
+////var dog = currentCart.Where(d => d.Id == pageId).FirstOrDefault();
+//if (pageId != null)
+//{
+
+//}
+//var allReferences = _contentRepository.GetDescendents(ContentReference.StartPage);
+//var allPages = allReferences.Select(x => this._contentRepository.Get<CookieCart.CartCookieItem>(x)).ToList();
+
+//var selectedBySomething = allPages.Where(x => x.ImageId == newCartItem.ImageId);
+//if (selectedBySomething!=null)
+//{
+//cookieHelper.UpdateSelectedCookie(currentCart,Convert.ToInt32());
+//}
+//foreach (var item in currentCart.CartItems)
+//{
+//    if (newCartItem.ImageId == item.ImageId && newCartItem.Size == item.Size)
+//    {
+//        //newCartItem.NumberOfItems += item.NumberOfItems;
+//        item.NumberOfItems = item.NumberOfItems + newCartItem.NumberOfItems;
+//        cookieHelper.UpdateSelectedCookie(currentCart);
+
+//    }
+//    else
+//    {
+//        Console.Write("do nothing");
 //    }
 //}
 #endregion

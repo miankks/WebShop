@@ -55,12 +55,6 @@ namespace WebShop.Business
                 shoppingCategoryPageUrl = _urlResolver.GetUrl(shoppingCategoryPages.First().ContentLink);
             }
 
-            var shoppingPages = _contentLoader.GetChildren<ShoppingPage>(ContentReference.StartPage).ToList();
-            var ShoppingPageUrl = string.Empty;
-            if (shoppingPages.Any())
-            {
-                ShoppingPageUrl = _urlResolver.GetUrl(shoppingPages.First().ContentLink);
-            }
 
             return new LayoutModel
             {
@@ -74,7 +68,6 @@ namespace WebShop.Business
                 LoginUrl = new MvcHtmlString(GetLoginUrl(currentContentLink)),
                 CartUrl = new MvcHtmlString(cartUrl),
                 ShoppingCategoryPageUrl = new MvcHtmlString(shoppingCategoryPageUrl),
-                ShoppingPageUrl = new MvcHtmlString(ShoppingPageUrl),
                 SearchActionUrl = new MvcHtmlString(EPiServer.Web.Routing.UrlResolver.Current.GetUrl(startPage.SearchPageLink)),
                 IsInReadonlyMode = _databaseMode.DatabaseMode == DatabaseMode.ReadOnly
             };

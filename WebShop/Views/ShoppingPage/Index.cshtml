@@ -36,15 +36,7 @@
                     <option value="Medium">Medium</option>
                     <option value="Large">Large</option>
                 </select>
-                
-                @*<br/>
-                <h4>Välj storleken</h4>
-                <select  name="sizes">
-                    <option value="Small">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
-                    <option value="Medium">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
-                    <option value="Large">@Html.PropertyFor(x => x.CurrentPage.ProductSize)</option>
-                </select>*@
-
+              
                 <h4>Välj kvantitet</h4>
                 <select id="dropdown" name="numberOfItems">
                     <option value="1">1</option>
@@ -61,6 +53,7 @@
                 <input type="hidden" name="productPageId" value="@Model.CurrentPage.PageLink.ID" />
                 <input type="hidden" name="productPageName" value="@Model.CurrentPage.Name"/>
                 <input type="submit" class="btn btn-primary add" value="+ Läg till" id="add">
+                @Html.PropertyFor(x => x.CurrentPage.ProductContentArea)
             </div>
     }
             else
