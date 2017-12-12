@@ -10,6 +10,7 @@ using WebShop.Models.ViewModels;
 using WebShop.Business;
 using System.Web;
 using System;
+using System.Globalization;
 using EPiServer.Filters;
 
 namespace WebShop.Controllers
@@ -30,6 +31,11 @@ namespace WebShop.Controllers
             var categoryPages = FilterForVisitor.Filter(_contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink)).Cast<ShoppingCategoryPage>().ToList();
             var shopplinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
             var shoppingLinks = FilterForVisitor.Filter(shopplinks).Cast<ShoppingPage>().ToList();
+            var criterias = new PropertyCriteriaCollection();
+            var criteria = new PropertyCriteria { Condition = CompareCondition.GreaterThan, Name = "PageCreated", Type = PropertyDataType.Date,
+                Value = DateTime.Now.AddDays(-7).ToString(CultureInfo.InvariantCulture), Required = true }; criterias.Add(criteria);
+            var criteriaQueryService = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IPageCriteriaQueryService>();
+            var weekOldPages = criteriaQueryService.FindPagesWithCriteria(ContentReference.StartPage, criterias);
 
             var model = new ShoppingCategoryPageViewModel(currentPage)
             {

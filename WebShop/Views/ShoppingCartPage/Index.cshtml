@@ -25,7 +25,7 @@
                         <td style="color: chocolate">@item.Price</td>
                         <td style="color: chocolate">@item.TotalMoms</td>
                         <td>@*@Html.ActionLink("Radera en cookie", "DeleteACookie", new { product = item.ImageId }, null)*@  </td>
-                        <td>@Html.ActionLink("Radera en cookie", "DeleteACookie", new { product = item.ImageId }, null)  </td>
+                        <td>@Html.ActionLink("Radera product", "DeleteACookie", new { product = item.ImageId }, null)  </td>
                     </tr>
                 </tbody>
             }

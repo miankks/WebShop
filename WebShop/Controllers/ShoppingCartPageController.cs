@@ -10,6 +10,7 @@ using EPiServer.Web.Mvc;
 using WebShop.Models.Pages;
 using WebShop.Business;
 using System.Net.Mail;
+using EPiServer.Framework.Localization;
 using WebShop.Models.ViewModels;
 using static Newtonsoft.Json.JsonConvert;
 
@@ -59,7 +60,7 @@ namespace WebShop.Controllers
                 
             };
             var currentCart = cookieHelper.GetCartFromCookie();
-
+            LocalizationService.Current.GetString("");
             currentCart.CartItems.Add(newCartItem);
 
             cookieHelper.SaveCartToCookie(currentCart);
