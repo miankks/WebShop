@@ -381,6 +381,10 @@
     <Content Include="ClientResources\Scripts\Editors\StringList.js" />
     <Content Include="ClientResources\Styles\LayoutIcons.css" />
     <Content Include="ClientResources\Styles\Styles.css" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
     <Content Include="Static\css\bootstrap-sortable.css" />
     <Content Include="Static\css\bootstrap-theme.css" />
     <Content Include="Static\css\bootstrap-theme.min.css" />

@@ -33,7 +33,8 @@ namespace WebShop.Controllers
             var shoppingLinks = FilterForVisitor.Filter(shopplinks).Cast<ShoppingPage>().ToList();
             var criterias = new PropertyCriteriaCollection();
             var criteria = new PropertyCriteria { Condition = CompareCondition.GreaterThan, Name = "PageCreated", Type = PropertyDataType.Date,
-                Value = DateTime.Now.AddDays(-7).ToString(CultureInfo.InvariantCulture), Required = true }; criterias.Add(criteria);
+                Value = DateTime.Now.AddDays(-7).ToString(CultureInfo.InvariantCulture), Required = true };
+            criterias.Add(criteria);
             var criteriaQueryService = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IPageCriteriaQueryService>();
             var weekOldPages = criteriaQueryService.FindPagesWithCriteria(ContentReference.StartPage, criterias);
 
@@ -46,34 +47,3 @@ namespace WebShop.Controllers
         }
     }
 }
-
-#region post action from SCPC
-
-//[HttpPost]
-//public ActionResult Index(ShoppingCategoryPage currentPage, string sizes, string numberOfItems,  ShoppingCartViewModel.CartItem item, ShoppingPage shopPage)
-//{
-//    var cookie = new CookieHelper();
-//    cookie.GetCookies(currentPage.Name, sizes, numberOfItems);
-
-//    TempData["successmessage"] = "Objektet har lagts i korgen!";
-//    return RedirectToAction("Index");
-//}
-
-
-
-
-//public ActionResult ShoppingPage(ShoppingPage currentPage)
-//{
-//    var categoryPages = _contentRepository.GetChildren<ShoppingCategoryPage>(currentPage.ContentLink).ToList();
-//Response.Write(item.ShoppingPage.Id); 
-//Response.Write(item.ShoppingPage.ProductPriceFor);
-//    var shoppingLinks = _contentRepository.GetChildren<ShoppingPage>(currentPage.ContentLink).ToList();
-
-//    var model = new ShoppingCategoryPageViewModel(currentPage)
-//    {
-//        ShoppingCategoryPages = categoryPages,
-//        ShoppingPages = shoppingLinks
-//    };
-//    return View(currentPage);
-//}
-#endregion

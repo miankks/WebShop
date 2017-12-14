@@ -19,6 +19,9 @@ namespace WebShop.Models.Pages
     [ContentType(DisplayName = "ShoppingPage", GUID = "5086689c-4f8f-4052-8b33-56924be644ad", Description = "")]
     public class ShoppingPage : SitePageData
     {
+        /// <summary>
+        /// Generates Unique product Id for indivisual products
+        /// </summary>
         [Display(
             Name = "Product Id",
             Description = "Product Id",
@@ -41,6 +44,9 @@ namespace WebShop.Models.Pages
             }
         }
 
+        /// <summary>
+        /// Gets the product image
+        /// </summary>
         [Display(
             Name = "Product Image",
             Description = "Product Image",
@@ -49,30 +55,45 @@ namespace WebShop.Models.Pages
         [UIHint(UIHint.Image)]
         public virtual ContentReference ProductImage { get; set; }
 
+        /// <summary>
+        /// Gets the product name
+        /// </summary>
         [Display(
             Name = "Product name",
             GroupName = SystemTabNames.Content,
             Order = 20)]
         public virtual string ProductName { get; set; }
 
+        /// <summary>
+        /// Gets the product price
+        /// </summary>
         [Display(
             Name = "Product price",
             GroupName = "Price",
             Order = 20)]
         public virtual double ProductPriceFor { get; set; }
 
+        /// <summary>
+        /// Gets the product moms
+        /// </summary>
         [Display(
             Name = "Product Moms",
             GroupName = "Price",
             Order = 20)]
         public virtual double Moms => ProductPriceFor * 0.25;
 
+        /// <summary>
+        /// Gets the procucts description
+        /// </summary>
         [Display(
             Name = "Product description",
             GroupName = SystemTabNames.Content,
             Order = 40)]
         public virtual XhtmlString ProductDecscription { get; set; }
 
+        /// <summary>
+        /// Gets the product description
+        /// </summary>
         [Display(
             Name = "Product content area",
             GroupName = SystemTabNames.Content,
@@ -80,6 +101,9 @@ namespace WebShop.Models.Pages
         [CultureSpecific]
         public virtual ContentArea ProductContentArea { get; set; }
 
+        /// <summary>
+        /// If product is available or not
+        /// </summary>
         [Display(
             Name = "Product availability",
             GroupName = SystemTabNames.Content,

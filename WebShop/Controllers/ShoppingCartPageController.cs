@@ -16,7 +16,7 @@ using static Newtonsoft.Json.JsonConvert;
 
 namespace WebShop.Controllers
 {
-    public class ShoppingCartPageController : PageController<ShoppingCartPage>
+    public class ShoppingCartPageController : PageControllerBase<ShoppingCartPage>
     {
         private double _totalPrice = 0;
         private double _totalMomsInCart = 0;

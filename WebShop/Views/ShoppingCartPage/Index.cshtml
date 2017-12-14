@@ -1,6 +1,9 @@
 ﻿@using EPiServer.Data
 @model ShoppingCartViewModel
 
+@{
+    Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
+}
 <div class="row">
     @if (Model.CurrentCart.CartItems.Count > 0)
     {

@@ -1,9 +1,15 @@
-﻿@model PageViewModel<ShoppingPage>
+﻿@using EPiServer.Editor
+@model PageViewModel<ShoppingPage>
 
 @{
     Layout = "~/Views/Shared/Layouts/_TwoPlusOne.cshtml";
+    Layout = "~/Views/Shared/Layouts/_LeftNavigation.cshtml";
 }
 @*<button class="add">+ Add to cart</button>*@
+
+
+@*@if (PageEditing.PageIsInEditMode) {*@
+
 <h3 @Html.EditAttributes(x => x.CurrentPage.Name)> @Html.PropertyFor(x => x.CurrentPage.Name)</h3>
 
 <div class="row">
@@ -28,7 +34,7 @@
             </div>
     @if(@Model.CurrentPage.Productavailability == true) { 
             <div class="span4">
-                @Html.PropertyFor(x => x.CurrentPage.ProductDecscription)
+                <h5 @Html.EditAttributes(x => x.CurrentPage.ProductDecscription)>@Html.PropertyFor(x => x.CurrentPage.ProductDecscription)</h5> 
                 <br/>
                 <h4>Välj storleken</h4>
                 <select id="size" name="sizes">
@@ -64,7 +70,11 @@
             }
     
 </div>
-
+@*}
+else
+{
+    <div><h1>Is not in edit mode</h1> </div>
+}*@
 <script>
     //var itemCount = 0;
 
